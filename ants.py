@@ -21,12 +21,12 @@ class AntGrid(object):
         self.screen.fill((0, 0, 0))
     
     def swap(self, x, y, color):  
-    	if self.rows[y][x] == (0, 0, 0):
-    		self.rows[y][x] = color
-    		self.screen.set_at((x, y), color)
-    	else:
-    		self.rows[y][x] = (0, 0, 0)
-    		self.screen.set_at((x, y), (0, 0, 0))
+        if self.rows[y][x] == (0, 0, 0):
+            self.rows[y][x] = color
+            self.screen.set_at((x, y), color)
+        else:
+            self.rows[y][x] = (0, 0, 0)
+            self.screen.set_at((x, y), (0, 0, 0))
     
     def get(self, x, y):
         return self.rows[y][x]
@@ -65,9 +65,9 @@ def run():
 
     pygame.init()
 
-	GRID_SIZE = (800, 800)
-	GRID_SQUARE_SIZE = (1, 1)
-	ITERATIONS = 1
+    GRID_SIZE = (600, 600)
+    GRID_SQUARE_SIZE = (1, 1)
+    ITERATIONS = 1
 
     w = GRID_SIZE[0] * GRID_SQUARE_SIZE[0]
     h = GRID_SIZE[1] * GRID_SQUARE_SIZE[1]
@@ -111,12 +111,12 @@ def run():
                     del ants[:]
 
                 if event.key == K_KP_MINUS and ITERATIONS>1:
-                	ITERATIONS = ITERATIONS / 10
+                    ITERATIONS = ITERATIONS / 10
 
                 if event.key == K_KP_PLUS and ITERATIONS<10000:
-                	ITERATIONS = ITERATIONS * 10
+                    ITERATIONS = ITERATIONS * 10
                 
-    	#grid.render(screen, GRID_SQUARE_SIZE)
+        #grid.render(screen, GRID_SQUARE_SIZE)
     
         if running:
             for iteration_no in xrange(ITERATIONS):        
