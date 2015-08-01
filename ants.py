@@ -20,7 +20,8 @@ class AntGrid(object):
                 new_row.append((0, 0, 0))
         self.screen.fill((0, 0, 0))
     
-    def swap(self, x, y, color):  
+    # Swaps grid pixels from black to color or color to black
+    def colorswap(self, x, y, color):  
         if self.rows[y][x] == (0, 0, 0):
             self.rows[y][x] = color
             self.screen.set_at((x, y), color)
@@ -46,7 +47,7 @@ class Ant(object):
         
     def move(self):
                 
-        self.grid.swap(self.x, self.y, self.color)
+        self.grid.colorswap(self.x, self.y, self.color)
                 
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height        
@@ -97,7 +98,7 @@ def run():
                 
                 NewColor = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
                 ant = Ant(grid, int(x), int(y), NewColor , random.randint(0,3))
-                grid.swap(x, y, ant.color)
+                grid.colorswap(x, y, ant.color)
                 ants.append(ant)
                     
             if event.type == KEYDOWN:
