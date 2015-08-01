@@ -77,6 +77,8 @@ def run():
     default_font = pygame.font.get_default_font()
     font = pygame.font.SysFont(default_font, 22)    
     
+    pygame.display.set_caption("Langton's Ants on Steroids")
+
     ants = []
     grid = AntGrid(screen, *GRID_SIZE)
     running = False
