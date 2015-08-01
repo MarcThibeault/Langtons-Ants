@@ -68,7 +68,7 @@ def run():
 
     GRID_SIZE = (600, 600)
     GRID_SQUARE_SIZE = (1, 1)
-    ITERATIONS = 1
+    frame_skip = 1
 
     w = GRID_SIZE[0] * GRID_SQUARE_SIZE[0]
     h = GRID_SIZE[1] * GRID_SQUARE_SIZE[1]
@@ -111,19 +111,20 @@ def run():
                     total_iterations = 0
                     del ants[:]
 
-                if event.key == K_KP_MINUS and ITERATIONS>1:
-                    ITERATIONS = ITERATIONS / 10
+                # Speed setting
+                if event.key == K_KP_MINUS and frame_skip>1:
+                    frame_skip = frame_skip / 4
 
-                if event.key == K_KP_PLUS and ITERATIONS<10000:
-                    ITERATIONS = ITERATIONS * 10
+                if event.key == K_KP_PLUS and frame_skip<262144:
+                    frame_skip = frame_skip * 4
                 
         #grid.render(screen, GRID_SQUARE_SIZE)
     
         if running:
-            for iteration_no in xrange(ITERATIONS):        
+            for iteration_no in xrange(frame_skip):        
                 for ant in ants:
                     ant.move()
-            total_iterations += ITERATIONS
+            total_iterations += frame_skip
             
         #txt = "%i iterations"%total_iterations
         #txt_surface = font.render("Running: %i iterations"%total_iterations, True, (255, 255, 255))
