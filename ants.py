@@ -3,6 +3,8 @@ from pygame.locals import *
 
 class AntGrid(object):
     
+    colors = ("red","green", "blue", "yellow")
+
     def __init__(self, screen, width, height):
         
         self.screen = screen
@@ -41,7 +43,7 @@ class Ant(object):
         self.grid = grid
         self.x = x
         self.y = y
-        self.color = color
+        self.color = pygame.Color(color)
         self.direction = direction
         
         
@@ -98,8 +100,7 @@ def run():
                 x /= GRID_SQUARE_SIZE[0]
                 y /= GRID_SQUARE_SIZE[1]                
                 
-                NewColor = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
-                ant = Ant(grid, int(x), int(y), NewColor , random.randint(0,3))
+                ant = Ant(grid, int(x), int(y), grid.colors[random.randint(0,len(grid.colors)-1)], random.randint(0,3))
                 grid.colorswap(x, y, ant.color)
                 ants.append(ant)
                     
