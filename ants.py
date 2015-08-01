@@ -57,7 +57,48 @@ class Ant(object):
         if self.grid.get(self.x, self.y) == (0, 0, 0):
             self.direction = (self.direction-1) % 4
         else:
-            self.direction = (self.direction+1) % 4                
+            self.direction = (self.direction+1) % 4
+
+    def render(self, surface, grid_size):
+        
+        grid_w, grid_h = grid_size     
+
+class RainbowAnt(object):
+    
+    directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
+    
+    def __init__(self, grid, x, y, direction):
+        
+        self.grid = grid
+        self.x = x
+        self.y = y
+        self.decimal_color = 1
+        self.color = pygame.Color("#000001")
+        self.direction = direction
+        
+        
+    def move(self):
+
+        if self.decimal_color < 16777150: #<16777214
+            self.decimal_color += 32
+        else:
+            self.decimal_color = 1
+
+        print self.decimal_color
+
+        hex_color = "0x" + ("%x" % self.decimal_color).zfill(6) # pad with zeros
+
+        self.color = pygame.Color(hex_color)
+                
+        self.grid.colorswap(self.x, self.y, self.color)
+                
+        self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
+        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height        
+                        
+        if self.grid.get(self.x, self.y) == (0, 0, 0):
+            self.direction = (self.direction-1) % 4
+        else:
+            self.direction = (self.direction+1) % 4               
         
         
     def render(self, surface, grid_size):
@@ -96,14 +137,26 @@ def run():
             
             if event.type == MOUSEBUTTONDOWN:
                 
-                x, y = event.pos
-                x /= GRID_SQUARE_SIZE[0]
-                y /= GRID_SQUARE_SIZE[1]                
-                
-                ant = Ant(grid, int(x), int(y), grid.colors[random.randint(0,len(grid.colors)-1)], random.randint(0,3))
-                grid.colorswap(x, y, ant.color)
-                ants.append(ant)
+                if event.button == 1:
+
+                    x, y = event.pos
+                    x /= GRID_SQUARE_SIZE[0]
+                    y /= GRID_SQUARE_SIZE[1]
                     
+                    ant = Ant(grid, int(x), int(y), grid.colors[random.randint(0,len(grid.colors)-1)], random.randint(0,3))
+                    grid.colorswap(x, y, ant.color)
+                    ants.append(ant)
+
+                elif event.button == 3:
+                    
+                    x, y = event.pos
+                    x /= GRID_SQUARE_SIZE[0]
+                    y /= GRID_SQUARE_SIZE[1]
+                    
+                    ant = RainbowAnt(grid, int(x), int(y), random.randint(0,3))
+                    grid.colorswap(x, y, ant.color)
+                    ants.append(ant)
+
             if event.type == KEYDOWN:
                 
                 if event.key == K_SPACE:                
