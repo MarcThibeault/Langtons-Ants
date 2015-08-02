@@ -31,8 +31,8 @@ class AntGrid(object):
             self.rows[y][x] = (0, 0, 0)
             self.screen.set_at((x, y), (0, 0, 0))
 
+    # Right statistics zone
     def updatestats(self):
-        #Right statistics zone
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
         
         font = pygame.font.SysFont("monospace", 15)
