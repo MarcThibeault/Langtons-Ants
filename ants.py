@@ -30,6 +30,14 @@ class AntGrid(object):
         else:
             self.rows[y][x] = (0, 0, 0)
             self.screen.set_at((x, y), (0, 0, 0))
+
+    def updatestats(self):
+        #Right statistics zone
+        pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
+        
+        font = pygame.font.SysFont("monospace", 15)
+        txt = font.render("STATISTICS", True, (255, 255, 255))
+        self.screen.blit(txt, (691, 0))
     
     def get(self, x, y):
         return self.rows[y][x]
@@ -109,11 +117,12 @@ def run():
 
     pygame.init()
 
-    GRID_SIZE = (600, 600)
+    STATS_WIDTH = 110
+    GRID_SIZE = (800 - STATS_WIDTH, 600)
     GRID_SQUARE_SIZE = (1, 1)
     frame_skip = 1
 
-    w = GRID_SIZE[0] * GRID_SQUARE_SIZE[0]
+    w = GRID_SIZE[0] * GRID_SQUARE_SIZE[0] + STATS_WIDTH
     h = GRID_SIZE[1] * GRID_SQUARE_SIZE[1]
     screen = pygame.display.set_mode((w, h), 0, 32)
     
@@ -143,9 +152,10 @@ def run():
                     x /= GRID_SQUARE_SIZE[0]
                     y /= GRID_SQUARE_SIZE[1]
                     
-                    ant = Ant(grid, int(x), int(y), grid.colors[random.randint(0,len(grid.colors)-1)], random.randint(0,3))
-                    grid.colorswap(x, y, ant.color)
-                    ants.append(ant)
+                    if x < GRID_SIZE[0]:
+                        ant = Ant(grid, int(x), int(y), grid.colors[random.randint(0,len(grid.colors)-1)], random.randint(0,3))
+                        grid.colorswap(x, y, ant.color)
+                        ants.append(ant)
 
                 elif event.button == 3:
                     
@@ -153,9 +163,10 @@ def run():
                     x /= GRID_SQUARE_SIZE[0]
                     y /= GRID_SQUARE_SIZE[1]
                     
-                    ant = RainbowAnt(grid, int(x), int(y), random.randint(0,3))
-                    grid.colorswap(x, y, ant.color)
-                    ants.append(ant)
+                    if x < GRID_SIZE[0]:
+                        ant = RainbowAnt(grid, int(x), int(y), random.randint(0,3))
+                        grid.colorswap(x, y, ant.color)
+                        ants.append(ant)
 
             if event.type == KEYDOWN:
                 
@@ -188,8 +199,9 @@ def run():
 
         for ant in ants:
             ant.render(screen, GRID_SQUARE_SIZE)
-            
-    
+
+        grid.updatestats()
+
         pygame.display.update()
     
 if __name__ == "__main__":
