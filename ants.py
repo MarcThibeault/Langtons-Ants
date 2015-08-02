@@ -84,7 +84,7 @@ class RainbowAnt(object):
         else:
             self.decimal_color = 1
 
-        print self.decimal_color
+        #print self.decimal_color
 
         hex_color = "0x" + ("%x" % self.decimal_color).zfill(6) # pad with zeros
 
