@@ -4,6 +4,7 @@ from pygame.locals import *
 class AntGrid(object):
     
     colors = ("red","green", "blue", "yellow", "dark orange", "violet red")
+    total_iterations = 0
 
     def __init__(self, screen, width, height):
         
@@ -31,13 +32,29 @@ class AntGrid(object):
             self.rows[y][x] = (0, 0, 0)
             self.screen.set_at((x, y), (0, 0, 0))
 
-    # Right statistics zone
-    def updatestats(self):
-        pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
-        
+    # Stats area static labels and vertical line
+    def statslabels(self):
         font = pygame.font.SysFont("monospace", 15)
+
         txt = font.render("STATISTICS", True, (255, 255, 255))
-        self.screen.blit(txt, (691, 0))
+        self.screen.blit(txt, (self.width + 2, 0))
+        txt = font.render("Iterations", True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 32))
+        txt = font.render("Ants", True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 64))
+
+        pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
+
+    # Update stats data
+    def updatestats(self, nb_ants):
+        font = pygame.font.SysFont("monospace", 15)
+
+        txt = font.render("%i" %self.total_iterations, True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
+        self.screen.blit(txt, (self.width + 2, 48))
+        txt = font.render("%i" %nb_ants, True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
+        self.screen.blit(txt, (self.width + 2, 80))
     
     def get(self, x, y):
         return self.rows[y][x]
@@ -117,7 +134,7 @@ def run():
 
     pygame.init()
 
-    STATS_WIDTH = 110
+    STATS_WIDTH = 120
     GRID_SIZE = (800 - STATS_WIDTH, 600)
     GRID_SQUARE_SIZE = (1, 1)
     frame_skip = 1
@@ -133,9 +150,8 @@ def run():
 
     ants = []
     grid = AntGrid(screen, *GRID_SIZE)
+    grid.statslabels()
     running = False
-    
-    total_iterations = 0
     
     while True:
         
@@ -175,8 +191,10 @@ def run():
                     
                 if event.key == K_c:
                     grid.clear()
-                    total_iterations = 0
+                    grid.total_iterations = 0
                     del ants[:]
+                    grid.statslabels()
+                    grid.updatestats(len(ants))
 
                 # Speed setting
                 if event.key == K_KP_MINUS and frame_skip>1:
@@ -191,16 +209,16 @@ def run():
             for iteration_no in xrange(frame_skip):        
                 for ant in ants:
                     ant.move()
-            total_iterations += frame_skip
+            grid.total_iterations += frame_skip
             
-        #txt = "%i iterations"%total_iterations
-        #txt_surface = font.render("Running: %i iterations"%total_iterations, True, (255, 255, 255))
+        #txt = "%i iterations"%grid.total_iterations
+        #txt_surface = font.render("Running: %i iterations"%grid.total_iterations, True, (255, 255, 255))
         #screen.blit(txt_surface, (0, 0))
 
         for ant in ants:
             ant.render(screen, GRID_SQUARE_SIZE)
 
-        grid.updatestats()
+        grid.updatestats(len(ants))
 
         pygame.display.update()
     
