@@ -5,6 +5,7 @@ class AntGrid(object):
     
     colors = ("red","green", "blue", "yellow", "dark orange", "violet red")
     total_iterations = 0
+    frame_skip = 1
 
     def __init__(self, screen, width, height):
         
@@ -38,10 +39,12 @@ class AntGrid(object):
 
         txt = font.render("STATISTICS", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 0))
-        txt = font.render("Iterations", True, (255, 255, 255))
+        txt = font.render("Speed", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 32))
-        txt = font.render("Ants", True, (255, 255, 255))
+        txt = font.render("Iterations", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 64))
+        txt = font.render("Ants", True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 96))
 
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
 
@@ -49,12 +52,15 @@ class AntGrid(object):
     def updatestats(self, nb_ants):
         font = pygame.font.SysFont("monospace", 15)
 
-        txt = font.render("%i" %self.total_iterations, True, (255, 255, 255))
+        txt = font.render("%ix " %self.frame_skip, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
         self.screen.blit(txt, (self.width + 2, 48))
-        txt = font.render("%i" %nb_ants, True, (255, 255, 255))
+        txt = font.render("%i" %self.total_iterations, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
         self.screen.blit(txt, (self.width + 2, 80))
+        txt = font.render("%i" %nb_ants, True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 108)))
+        self.screen.blit(txt, (self.width + 2, 108))
     
     def get(self, x, y):
         return self.rows[y][x]
@@ -137,7 +143,6 @@ def run():
     STATS_WIDTH = 120
     GRID_SIZE = (800 - STATS_WIDTH, 600)
     GRID_SQUARE_SIZE = (1, 1)
-    frame_skip = 1
 
     w = GRID_SIZE[0] * GRID_SQUARE_SIZE[0] + STATS_WIDTH
     h = GRID_SIZE[1] * GRID_SQUARE_SIZE[1]
@@ -197,19 +202,19 @@ def run():
                     grid.updatestats(len(ants))
 
                 # Speed setting
-                if event.key == K_KP_MINUS and frame_skip>1:
-                    frame_skip = frame_skip / 4
+                if event.key == K_KP_MINUS and grid.frame_skip>1:
+                    grid.frame_skip = grid.frame_skip / 4
 
-                if event.key == K_KP_PLUS and frame_skip<262144:
-                    frame_skip = frame_skip * 4
+                if event.key == K_KP_PLUS and grid.frame_skip<262144:
+                    grid.frame_skip = grid.frame_skip * 4
                 
         #grid.render(screen, GRID_SQUARE_SIZE)
     
         if running:
-            for iteration_no in xrange(frame_skip):        
+            for iteration_no in xrange(grid.frame_skip):        
                 for ant in ants:
                     ant.move()
-            grid.total_iterations += frame_skip
+            grid.total_iterations += grid.frame_skip
             
         #txt = "%i iterations"%grid.total_iterations
         #txt_surface = font.render("Running: %i iterations"%grid.total_iterations, True, (255, 255, 255))
