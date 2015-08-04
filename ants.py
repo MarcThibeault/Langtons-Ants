@@ -3,7 +3,7 @@ from pygame.locals import *
 
 class AntGrid(object):
     
-    colors = ("red","green", "blue", "yellow")
+    colors = ("red","green", "blue", "yellow", "dark orange", "violet red")
 
     def __init__(self, screen, width, height):
         
