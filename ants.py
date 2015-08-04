@@ -169,7 +169,7 @@ def run():
                     y /= GRID_SQUARE_SIZE[1]
                     
                     if x < GRID_SIZE[0]:
-                        ant = Ant(grid, int(x), int(y), grid.colors[random.randint(0,len(grid.colors)-1)], random.randint(0,3))
+                        ant = Ant(grid, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], random.randint(0,3))
                         grid.colorswap(x, y, ant.color)
                         ants.append(ant)
 
