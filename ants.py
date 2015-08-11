@@ -6,6 +6,7 @@ class AntGrid(object):
     colors = ("red","green", "blue", "yellow", "dark orange", "violet red")
     total_steps = 0
     frame_skip = 1
+    explored = 0
 
     def __init__(self, screen, width, height):
         
@@ -21,16 +22,21 @@ class AntGrid(object):
             new_row = []
             self.rows.append(new_row)
             for row_no in xrange(self.width):
-                new_row.append((0, 0, 0))
+                new_row.append("X")
         self.screen.fill((0, 0, 0))
+        self.explored = 0
     
     # Swaps grid pixels from black to color or color to black
-    def colorswap(self, x, y, color):  
-        if self.rows[y][x] == (0, 0, 0):
-            self.rows[y][x] = color
+    def colorswap(self, x, y, ant_id, color):  
+        if self.rows[y][x] == "X":
+            self.rows[y][x] = ant_id
+            self.screen.set_at((x, y), color)
+            self.explored += 1
+        elif self.rows[y][x] == 0:
+            self.rows[y][x] = ant_id
             self.screen.set_at((x, y), color)
         else:
-            self.rows[y][x] = (0, 0, 0)
+            self.rows[y][x] = 0
             self.screen.set_at((x, y), (0, 0, 0))
 
     # Stats area static labels and vertical line
@@ -43,24 +49,31 @@ class AntGrid(object):
         self.screen.blit(txt, (self.width + 2, 32))
         txt = font.render("Steps", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 64))
-        txt = font.render("Ants", True, (255, 255, 255))
+        txt = font.render("Explored", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 96))
+        txt = font.render("Ants", True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 128))
 
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
 
     # Update stats data
     def updatestats(self, nb_ants):
+        percent_explored = float(float(self.explored) / (self.height * self.width) * 100)
+
         font = pygame.font.SysFont("monospace", 15)
 
-        txt = font.render("%ix " %self.frame_skip, True, (255, 255, 255))
+        txt = font.render("%ix  " %self.frame_skip, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
         self.screen.blit(txt, (self.width + 2, 48))
         txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
         self.screen.blit(txt, (self.width + 2, 80))
+        txt = font.render("%s" %str(round(percent_explored, 2)) + "%", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 112)))
+        self.screen.blit(txt, (self.width + 2, 112))
         txt = font.render("%i" %nb_ants, True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 108)))
-        self.screen.blit(txt, (self.width + 2, 108))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 144)))
+        self.screen.blit(txt, (self.width + 2, 144))
     
     def get(self, x, y):
         return self.rows[y][x]
@@ -69,9 +82,10 @@ class Ant(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
-    def __init__(self, grid, x, y, color, direction):
+    def __init__(self, grid, ant_id, x, y, color, direction):
         
         self.grid = grid
+        self.ant_id = ant_id
         self.x = x
         self.y = y
         self.color = pygame.Color(color)
@@ -80,12 +94,12 @@ class Ant(object):
         
     def move(self):
                 
-        self.grid.colorswap(self.x, self.y, self.color)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
                 
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height        
                         
-        if self.grid.get(self.x, self.y) == (0, 0, 0):
+        if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
             self.direction = (self.direction-1) % 4
         else:
             self.direction = (self.direction+1) % 4
@@ -98,9 +112,10 @@ class RainbowAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
-    def __init__(self, grid, x, y, direction):
+    def __init__(self, grid, ant_id, x, y, direction):
         
         self.grid = grid
+        self.ant_id = ant_id
         self.x = x
         self.y = y
         self.decimal_color = 1
@@ -121,15 +136,15 @@ class RainbowAnt(object):
 
         self.color = pygame.Color(hex_color)
                 
-        self.grid.colorswap(self.x, self.y, self.color)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
                 
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height        
                         
-        if self.grid.get(self.x, self.y) == (0, 0, 0):
+        if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
             self.direction = (self.direction-1) % 4
         else:
-            self.direction = (self.direction+1) % 4               
+            self.direction = (self.direction+1) % 4
         
         
     def render(self, surface, grid_size):
@@ -174,9 +189,9 @@ def run():
                     y /= GRID_SQUARE_SIZE[1]
                     
                     if x < GRID_SIZE[0]:
-                        ant = Ant(grid, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], random.randint(0,3))
-                        grid.colorswap(x, y, ant.color)
+                        ant = Ant(grid, len(ants) + 1, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], random.randint(0,3))
                         ants.append(ant)
+                        grid.colorswap(x, y, ant.ant_id, ant.color)
 
                 elif event.button == 3:
                     
@@ -185,9 +200,9 @@ def run():
                     y /= GRID_SQUARE_SIZE[1]
                     
                     if x < GRID_SIZE[0]:
-                        ant = RainbowAnt(grid, int(x), int(y), random.randint(0,3))
-                        grid.colorswap(x, y, ant.color)
+                        ant = RainbowAnt(grid, len(ants) + 1, int(x), int(y), random.randint(0,3))
                         ants.append(ant)
+                        grid.colorswap(x, y, ant.ant_id, ant.color)
 
             if event.type == KEYDOWN:
                 
@@ -200,7 +215,7 @@ def run():
                     del ants[:]
                     grid.statslabels()
                     grid.updatestats(len(ants))
-                    running = not running
+                    running = False
 
                 # Speed setting
                 if event.key == K_KP_MINUS and grid.frame_skip>1:
