@@ -4,7 +4,7 @@ from pygame.locals import *
 class AntGrid(object):
     
     colors = ("red","green", "blue", "yellow", "dark orange", "violet red")
-    total_iterations = 0
+    total_steps = 0
     frame_skip = 1
 
     def __init__(self, screen, width, height):
@@ -41,7 +41,7 @@ class AntGrid(object):
         self.screen.blit(txt, (self.width + 2, 0))
         txt = font.render("Speed", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 32))
-        txt = font.render("Iterations", True, (255, 255, 255))
+        txt = font.render("Steps", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 64))
         txt = font.render("Ants", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 96))
@@ -55,7 +55,7 @@ class AntGrid(object):
         txt = font.render("%ix " %self.frame_skip, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
         self.screen.blit(txt, (self.width + 2, 48))
-        txt = font.render("%i" %self.total_iterations, True, (255, 255, 255))
+        txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
         self.screen.blit(txt, (self.width + 2, 80))
         txt = font.render("%i" %nb_ants, True, (255, 255, 255))
@@ -196,7 +196,7 @@ def run():
                     
                 if event.key == K_c:
                     grid.clear()
-                    grid.total_iterations = 0
+                    grid.total_steps = 0
                     del ants[:]
                     grid.statslabels()
                     grid.updatestats(len(ants))
@@ -211,14 +211,10 @@ def run():
         #grid.render(screen, GRID_SQUARE_SIZE)
     
         if running:
-            for iteration_no in xrange(grid.frame_skip):        
+            for step_no in xrange(grid.frame_skip):        
                 for ant in ants:
                     ant.move()
-            grid.total_iterations += grid.frame_skip
-            
-        #txt = "%i iterations"%grid.total_iterations
-        #txt_surface = font.render("Running: %i iterations"%grid.total_iterations, True, (255, 255, 255))
-        #screen.blit(txt_surface, (0, 0))
+            grid.total_steps += grid.frame_skip
 
         for ant in ants:
             ant.render(screen, GRID_SQUARE_SIZE)
