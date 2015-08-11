@@ -200,6 +200,7 @@ def run():
                     del ants[:]
                     grid.statslabels()
                     grid.updatestats(len(ants))
+                    running = not running
 
                 # Speed setting
                 if event.key == K_KP_MINUS and grid.frame_skip>1:
