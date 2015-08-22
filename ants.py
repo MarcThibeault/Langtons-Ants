@@ -62,9 +62,6 @@ class AntGrid(object):
 
         font = pygame.font.SysFont("monospace", 15)
 
-        txt = font.render("%ix  " %self.frame_skip, True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
-        self.screen.blit(txt, (self.width + 2, 48))
         txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
         self.screen.blit(txt, (self.width + 2, 80))
@@ -74,6 +71,14 @@ class AntGrid(object):
         txt = font.render("%i" %nb_ants, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 144)))
         self.screen.blit(txt, (self.width + 2, 144))
+
+    #Update speed in stats, only when speed changes
+    def updatespeed(self):
+        font = pygame.font.SysFont("monospace", 15)
+
+        txt = font.render("%ix  " %self.frame_skip, True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
+        self.screen.blit(txt, (self.width + 2, 48))
     
     def get(self, x, y):
         return self.rows[y][x]
@@ -215,14 +220,17 @@ def run():
                     del ants[:]
                     grid.statslabels()
                     grid.updatestats(len(ants))
+                    grid.updatespeed()
                     running = False
 
                 # Speed setting
                 if event.key == K_KP_MINUS and grid.frame_skip>1:
                     grid.frame_skip = grid.frame_skip / 4
+                    grid.updatespeed()
 
                 if event.key == K_KP_PLUS and grid.frame_skip<262144:
                     grid.frame_skip = grid.frame_skip * 4
+                    grid.updatespeed()
                 
         #grid.render(screen, GRID_SQUARE_SIZE)
     
@@ -238,6 +246,7 @@ def run():
         grid.updatestats(len(ants))
 
         pygame.display.update()
+        grid.updatespeed()
     
 if __name__ == "__main__":
     run()
