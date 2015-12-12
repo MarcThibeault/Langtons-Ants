@@ -7,6 +7,7 @@ class AntGrid(object):
     total_steps = 0
     frame_skip = 1
     explored = 0
+    ants_couters = []
 
     def __init__(self, screen, width, height):
         
@@ -32,10 +33,13 @@ class AntGrid(object):
             self.rows[y][x] = ant_id
             self.screen.set_at((x, y), color)
             self.explored += 1
+            self.ants_couters[ant_id] += 1
         elif self.rows[y][x] == 0:
             self.rows[y][x] = ant_id
             self.screen.set_at((x, y), color)
+            self.ants_couters[ant_id] += 1
         else:
+            self.ants_couters[self.rows[y][x]] -= 1
             self.rows[y][x] = 0
             self.screen.set_at((x, y), (0, 0, 0))
 
@@ -175,6 +179,7 @@ def run():
 
     ants = []
     grid = AntGrid(screen, *GRID_SIZE)
+    grid.ants_couters.append(0)
     grid.statslabels()
     running = False
     
@@ -196,6 +201,7 @@ def run():
                     if x < GRID_SIZE[0]:
                         ant = Ant(grid, len(ants) + 1, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], random.randint(0,3))
                         ants.append(ant)
+                        grid.ants_couters.append(0)
                         grid.colorswap(x, y, ant.ant_id, ant.color)
 
                 elif event.button == 3:
@@ -207,6 +213,7 @@ def run():
                     if x < GRID_SIZE[0]:
                         ant = RainbowAnt(grid, len(ants) + 1, int(x), int(y), random.randint(0,3))
                         ants.append(ant)
+                        grid.ants_couters.append(0)
                         grid.colorswap(x, y, ant.ant_id, ant.color)
 
             if event.type == KEYDOWN:
