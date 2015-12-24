@@ -18,6 +18,8 @@ class AntGrid(object):
     
     def clear(self):
         
+        self.ants_couters = []
+        self.ants_couters.append(0)
         self.rows = []
         for col_no in xrange(self.height):
             new_row = []
@@ -57,6 +59,8 @@ class AntGrid(object):
         self.screen.blit(txt, (self.width + 2, 96))
         txt = font.render("Ants", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 128))
+        txt = font.render("Top 3", True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 176))
 
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
 
@@ -75,6 +79,34 @@ class AntGrid(object):
         txt = font.render("%i" %nb_ants, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 144)))
         self.screen.blit(txt, (self.width + 2, 144))
+
+        Score1 = 0
+        Score2 = 0
+        Score3 = 0
+
+        if nb_ants > 0:
+            for i in range(0, nb_ants + 1):
+                if self.ants_couters[i] > self.ants_couters[Score1]:
+                    Score3 = Score2
+                    Score2 = Score1
+                    Score1 = i
+                else:
+                    if self.ants_couters[i] > self.ants_couters[Score2]:
+                        Score3 = Score2
+                        Score2 = i
+                    else:
+                        if self.ants_couters[i] > self.ants_couters[Score3]:
+                            Score3 = i
+
+            txt = font.render("%i" %self.ants_couters[Score1], True, (255, 255, 255))
+            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 192)))
+            self.screen.blit(txt, (self.width + 2, 192))
+            txt = font.render("%i" %self.ants_couters[Score2], True, (255, 255, 255))
+            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
+            self.screen.blit(txt, (self.width + 2, 208))
+            txt = font.render("%i" %self.ants_couters[Score3], True, (255, 255, 255))
+            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
+            self.screen.blit(txt, (self.width + 2, 224))
 
     #Update speed in stats, only when speed changes
     def updatespeed(self):
