@@ -109,13 +109,13 @@ class AntGrid(object):
                         if self.ants_couters[i] >= self.ants_couters[Score3]:
                             Score3 = i
 
-            txt = font.render("%i  " %self.ants_couters[Score1], True, (hex_to_rgb(self.colors[Score1-1])))
+            txt = font.render("%i  " %self.ants_couters[Score1], True, (hex_to_rgb(self.colors[Score1 % len(self.colors)])))
             self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 192)))
             self.screen.blit(txt, (self.width + 2, 192))
-            txt = font.render("%i  " %self.ants_couters[Score2], True, (hex_to_rgb(self.colors[Score2-1])))
+            txt = font.render("%i  " %self.ants_couters[Score2], True, (hex_to_rgb(self.colors[Score2 % len(self.colors)])))
             self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
             self.screen.blit(txt, (self.width + 2, 208))
-            txt = font.render("%i  " %self.ants_couters[Score3], True, (hex_to_rgb(self.colors[Score3-1])))
+            txt = font.render("%i  " %self.ants_couters[Score3], True, (hex_to_rgb(self.colors[Score3 % len(self.colors)])))
             self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
             self.screen.blit(txt, (self.width + 2, 224))
 
