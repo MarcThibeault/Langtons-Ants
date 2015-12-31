@@ -12,7 +12,7 @@ def rgb_to_hex(rgb):
 
 class AntGrid(object):
     
-    colors = ("#FF0000","#00FF00", "#0000FF", "#FFFF00", "#EE7600", "#4B0082", "#FFFFFF")
+    colors = ("#FF0000", "#FF5000", "#FFFF00", "#00FF00", "#0000FF", "#4B0082", "#FFFFFF")
     total_steps = 0
     frame_skip = 1
     explored = 0
