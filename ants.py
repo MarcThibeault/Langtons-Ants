@@ -16,6 +16,7 @@ class AntGrid(object):
     total_steps = 0
     frame_skip = 1
     explored = 0
+    nb_ants = 0
     ants_couters = []
 
     def __init__(self, screen, width, height):
@@ -37,6 +38,7 @@ class AntGrid(object):
                 new_row.append("X")
         self.screen.fill((0, 0, 0))
         self.explored = 0
+        self.nb_ants = 0
     
     # Swaps grid pixels from black to color or color to black
     def colorswap(self, x, y, ant_id, color):  
@@ -140,6 +142,7 @@ class Ant(object):
         self.y = y
         self.color = pygame.Color(color)
         self.direction = direction
+        self.grid.nb_ants += 1
         
         
     def move(self):
@@ -162,30 +165,21 @@ class RainbowAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
-    def __init__(self, grid, ant_id, x, y, direction):
+    def __init__(self, grid, ant_id, x, y, color, direction):
         
         self.grid = grid
         self.ant_id = ant_id
         self.x = x
         self.y = y
         self.decimal_color = 1
-        self.color = pygame.Color("#000001")
+        self.color = pygame.Color(color)
         self.direction = direction
+        self.grid.nb_ants += 1
         
         
     def move(self):
 
-        if self.decimal_color < 16777150: #<16777214
-            self.decimal_color += 32
-        else:
-            self.decimal_color = 1
-
-        #print self.decimal_color
-
-        hex_color = "0x" + ("%x" % self.decimal_color).zfill(6) # pad with zeros
-
-        self.color = pygame.Color(hex_color)
-                
+        self.color = pygame.Color(self.grid.colors[self.grid.total_steps / 1000 % (6)])
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
                 
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
@@ -252,7 +246,7 @@ def run():
                     y /= GRID_SQUARE_SIZE[1]
                     
                     if x < GRID_SIZE[0]:
-                        ant = RainbowAnt(grid, len(ants) + 1, int(x), int(y), random.randint(0,3))
+                        ant = RainbowAnt(grid, len(ants) + 1, int(x), int(y), grid.colors[0], random.randint(0,3))
                         ants.append(ant)
                         grid.ants_couters.append(0)
                         grid.colorswap(x, y, ant.ant_id, ant.color)
