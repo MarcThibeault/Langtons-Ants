@@ -3,7 +3,7 @@ from pygame.locals import *
 
 class AntGrid(object):
     
-    colors = ("red","green", "blue", "yellow", "dark orange", "violet red")
+    colors = ("#FF0000","#00FF00", "#0000FF", "#FFFF00", "#EE7600", "#4B0082", "#FFFFFF")
     total_steps = 0
     frame_skip = 1
     explored = 0
@@ -98,13 +98,13 @@ class AntGrid(object):
                         if self.ants_couters[i] > self.ants_couters[Score3]:
                             Score3 = i
 
-            txt = font.render("%i" %self.ants_couters[Score1], True, (255, 255, 255))
+            txt = font.render("%i" %self.ants_couters[Score1], True, (hex_to_rgb(self.colors[Score1-1])))
             self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 192)))
             self.screen.blit(txt, (self.width + 2, 192))
-            txt = font.render("%i" %self.ants_couters[Score2], True, (255, 255, 255))
+            txt = font.render("%i" %self.ants_couters[Score2], True, (hex_to_rgb(self.colors[Score2-1])))
             self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
             self.screen.blit(txt, (self.width + 2, 208))
-            txt = font.render("%i" %self.ants_couters[Score3], True, (255, 255, 255))
+            txt = font.render("%i" %self.ants_couters[Score3], True, (hex_to_rgb(self.colors[Score3-1])))
             self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
             self.screen.blit(txt, (self.width + 2, 224))
 
@@ -289,4 +289,13 @@ def run():
     
 if __name__ == "__main__":
     run()
-            
+
+
+#Global Functions
+def hex_to_rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
+def rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % rgb
