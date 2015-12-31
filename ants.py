@@ -94,17 +94,17 @@ class AntGrid(object):
         Score3 = 0
 
         if nb_ants > 0:
-            for i in range(0, nb_ants + 1):
-                if self.ants_couters[i] > self.ants_couters[Score1]:
+            for i in range(1, nb_ants + 1):
+                if self.ants_couters[i] >= self.ants_couters[Score1]:
                     Score3 = Score2
                     Score2 = Score1
                     Score1 = i
                 else:
-                    if self.ants_couters[i] > self.ants_couters[Score2]:
+                    if self.ants_couters[i] >= self.ants_couters[Score2]:
                         Score3 = Score2
                         Score2 = i
                     else:
-                        if self.ants_couters[i] > self.ants_couters[Score3]:
+                        if self.ants_couters[i] >= self.ants_couters[Score3]:
                             Score3 = i
 
             txt = font.render("%i" %self.ants_couters[Score1], True, (hex_to_rgb(self.colors[Score1-1])))
