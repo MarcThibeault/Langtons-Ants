@@ -1,6 +1,15 @@
 import pygame, random
 from pygame.locals import *
 
+#Global Functions
+def hex_to_rgb(value):
+    value = value.lstrip('#')
+    lv = len(value)
+    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
+
+def rgb_to_hex(rgb):
+    return '#%02x%02x%02x' % rgb
+
 class AntGrid(object):
     
     colors = ("#FF0000","#00FF00", "#0000FF", "#FFFF00", "#EE7600", "#4B0082", "#FFFFFF")
@@ -289,13 +298,3 @@ def run():
     
 if __name__ == "__main__":
     run()
-
-
-#Global Functions
-def hex_to_rgb(value):
-    value = value.lstrip('#')
-    lv = len(value)
-    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-
-def rgb_to_hex(rgb):
-    return '#%02x%02x%02x' % rgb
