@@ -143,6 +143,11 @@ class Ant(object):
         self.color = pygame.Color(color)
         self.direction = direction
         self.grid.nb_ants += 1
+
+        self.starting_x = x
+        self.starting_y = y
+        self.starting_direction = direction
+        self.starting_step = self.grid.total_steps
         
         
     def move(self):
