@@ -206,10 +206,9 @@ def run():
 
     STATS_WIDTH = 100
     GRID_SIZE = (900 - STATS_WIDTH, 600)
-    GRID_SQUARE_SIZE = (1, 1)
 
-    w = GRID_SIZE[0] * GRID_SQUARE_SIZE[0] + STATS_WIDTH
-    h = GRID_SIZE[1] * GRID_SQUARE_SIZE[1]
+    w = GRID_SIZE[0] + STATS_WIDTH
+    h = GRID_SIZE[1]
     screen = pygame.display.set_mode((w, h), 0, 32)
     
     default_font = pygame.font.get_default_font()
