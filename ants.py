@@ -196,9 +196,9 @@ class RainbowAnt(object):
             self.direction = (self.direction+1) % 4
         
         
-    def render(self, surface, grid_size):
+    def render(self, surface):
         
-        grid_w, grid_h = grid_size        
+        grid_w, grid_h = (1,1)
         
 def run():
 
