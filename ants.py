@@ -93,7 +93,7 @@ class AntGrid(object):
         txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
         self.screen.blit(txt, (self.width + 2, 80))
-        txt = font.render("%s" %str(round(percent_explored, 2)) + "%", True, (255, 255, 255))
+        txt = font.render("%s" %str(round(percent_explored, 2)) + "%   ", True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 112)))
         self.screen.blit(txt, (self.width + 2, 112))
         txt = font.render("%i" %nb_ants, True, (255, 255, 255))
