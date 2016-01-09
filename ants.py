@@ -1,4 +1,5 @@
 import pygame, random, csv, datetime
+import Tkinter, tkFileDialog
 from pygame.locals import *
 
 #Global Functions
@@ -262,6 +263,33 @@ def run():
                     grid.updatestats(len(ants))
                     grid.updatespeed()
                     running = False
+
+                #Load key
+                if event.key == K_l:
+                    Tkinter.Tk().withdraw() # Close the root window
+                    csv_path = tkFileDialog.askopenfilename()
+                    #Turn around to set back focus on main window
+                    screen = pygame.display.set_mode((w, h+1), 0, 32)
+                    screen = pygame.display.set_mode((w, h), 0, 32)
+
+                    grid.clear()
+                    grid.total_steps = 0
+                    del ants[:]
+                    grid.statslabels()
+                    grid.updatestats(len(ants))
+                    grid.updatespeed()
+                    running = False
+
+                    with open(csv_path, 'rb') as csvfile:
+                        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+                        for row in csv_reader:
+                            x = int(row[0])
+                            y = int(row[1])
+                            direction = int(row[2])
+                            ant = Ant(grid, len(ants) + 1, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], direction)
+                            ants.append(ant)
+                            grid.ants_couters.append(0)
+                            grid.colorswap(x, y, ant.ant_id, ant.color)
 
                 #Save key
                 if event.key == K_s:
