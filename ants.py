@@ -39,7 +39,13 @@ class AntGrid(object):
                 new_row.append("X")
         self.screen.fill((0, 0, 0))
         self.explored = 0
+        self.total_steps = 0
+        self.frame_skip = 1
         self.nb_ants = 0
+
+        self.statslabels()
+        self.updatespeed()
+        self.updatestats(0)
     
     # Swaps grid pixels from black to color or color to black
     def colorswap(self, x, y, ant_id, color):  
@@ -257,11 +263,7 @@ def run():
                 #Clear key
                 if event.key == K_c:
                     grid.clear()
-                    grid.total_steps = 0
                     del ants[:]
-                    grid.statslabels()
-                    grid.updatestats(len(ants))
-                    grid.updatespeed()
                     running = False
 
                 #Load key
@@ -273,11 +275,7 @@ def run():
                     screen = pygame.display.set_mode((w, h), 0, 32)
 
                     grid.clear()
-                    grid.total_steps = 0
                     del ants[:]
-                    grid.statslabels()
-                    grid.updatestats(len(ants))
-                    grid.updatespeed()
                     running = False
 
                     with open(csv_path, 'rb') as csvfile:
