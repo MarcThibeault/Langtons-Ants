@@ -18,6 +18,7 @@ class AntGrid(object):
     frame_skip = 1
     explored = 0
     nb_ants = 0
+    ants = []
     ants_couters = []
 
     def __init__(self, screen, width, height):
@@ -29,6 +30,7 @@ class AntGrid(object):
     
     def clear(self):
         
+        del self.ants[:]
         self.ants_couters = []
         self.ants_couters.append(0)
         self.rows = []
@@ -220,8 +222,8 @@ def run():
     
     pygame.display.set_caption("Langton's Ants on Steroids")
 
-    ants = []
     grid = AntGrid(screen, *GRID_SIZE)
+    grid.ants = []
     grid.ants_couters.append(0)
     grid.statslabels()
     running = False
@@ -240,8 +242,8 @@ def run():
                     x, y = event.pos
                     
                     if x < GRID_SIZE[0]:
-                        ant = Ant(grid, len(ants) + 1, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], random.randint(0,3))
-                        ants.append(ant)
+                        ant = Ant(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], random.randint(0,3))
+                        grid.ants.append(ant)
                         grid.ants_couters.append(0)
                         grid.colorswap(x, y, ant.ant_id, ant.color)
 
@@ -250,8 +252,8 @@ def run():
                     x, y = event.pos
                     
                     if x < GRID_SIZE[0]:
-                        ant = RainbowAnt(grid, len(ants) + 1, int(x), int(y), grid.colors[0], random.randint(0,3))
-                        ants.append(ant)
+                        ant = RainbowAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[0], random.randint(0,3))
+                        grid.ants.append(ant)
                         grid.ants_couters.append(0)
                         grid.colorswap(x, y, ant.ant_id, ant.color)
 
@@ -263,7 +265,6 @@ def run():
                 #Clear key
                 if event.key == K_c:
                     grid.clear()
-                    del ants[:]
                     running = False
 
                 #Load key
@@ -275,7 +276,6 @@ def run():
                     screen = pygame.display.set_mode((w, h), 0, 32)
 
                     grid.clear()
-                    del ants[:]
                     running = False
 
                     with open(csv_path, 'rb') as csvfile:
@@ -284,8 +284,8 @@ def run():
                             x = int(row[0])
                             y = int(row[1])
                             direction = int(row[2])
-                            ant = Ant(grid, len(ants) + 1, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], direction)
-                            ants.append(ant)
+                            ant = Ant(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], direction)
+                            grid.ants.append(ant)
                             grid.ants_couters.append(0)
                             grid.colorswap(x, y, ant.ant_id, ant.color)
 
@@ -294,7 +294,7 @@ def run():
                     now = datetime.datetime.now()
                     with open(now.strftime("%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
                         csv_writer = csv.writer(csvfile)
-                        for ant in ants:
+                        for ant in grid.ants:
                             csv_writer.writerow(ant.starting_params)
 
                 # Speed setting
@@ -308,14 +308,14 @@ def run():
     
         if running:
             for step_no in xrange(grid.frame_skip):        
-                for ant in ants:
+                for ant in grid.ants:
                     ant.move()
             grid.total_steps += grid.frame_skip
 
-        for ant in ants:
+        for ant in grid.ants:
             ant.render(screen)
 
-        grid.updatestats(len(ants))
+        grid.updatestats(len(grid.ants))
 
         pygame.display.update()
         grid.updatespeed()
