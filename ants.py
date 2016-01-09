@@ -1,4 +1,4 @@
-import pygame, random
+import pygame, random, csv, datetime
 from pygame.locals import *
 
 #Global Functions
@@ -144,10 +144,7 @@ class Ant(object):
         self.direction = direction
         self.grid.nb_ants += 1
 
-        self.starting_x = x
-        self.starting_y = y
-        self.starting_direction = direction
-        self.starting_step = self.grid.total_steps
+        self.starting_params = (x, y, direction, self.grid.total_steps)
         
         
     def move(self):
@@ -211,6 +208,7 @@ def run():
     h = GRID_SIZE[1]
     screen = pygame.display.set_mode((w, h), 0, 32)
     
+    now = datetime.datetime.now()
     default_font = pygame.font.get_default_font()
     font = pygame.font.SysFont(default_font, 22)    
     
@@ -255,7 +253,8 @@ def run():
                 
                 if event.key == K_SPACE:                
                     running = not running
-                    
+                
+                #Clear key
                 if event.key == K_c:
                     grid.clear()
                     grid.total_steps = 0
@@ -264,6 +263,13 @@ def run():
                     grid.updatestats(len(ants))
                     grid.updatespeed()
                     running = False
+
+                #Save key
+                if event.key == K_s:
+                    with open(now.strftime("%Y-%m-%d %H.%M") + '.csv', 'wb') as csvfile:
+                        csv_writer = csv.writer(csvfile)
+                        for ant in ants:
+                            csv_writer.writerow(ant.starting_params)
 
                 # Speed setting
                 if event.key == K_KP_MINUS and grid.frame_skip>1:
