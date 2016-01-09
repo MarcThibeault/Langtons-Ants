@@ -25,7 +25,7 @@ class AntGrid(object):
         
         self.screen = screen
         self.width = width
-        self.height = height        
+        self.height = height
         self.clear()
     
     def clear(self):
@@ -50,7 +50,7 @@ class AntGrid(object):
         self.updatestats(0)
     
     # Swaps grid pixels from black to color or color to black
-    def colorswap(self, x, y, ant_id, color):  
+    def colorswap(self, x, y, ant_id, color):
         if self.rows[y][x] == "X":
             self.rows[y][x] = ant_id
             self.screen.set_at((x, y), color)
@@ -161,7 +161,7 @@ class Ant(object):
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
                 
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
-        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height        
+        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height
                         
         if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
             self.direction = (self.direction-1) % 4
@@ -170,7 +170,7 @@ class Ant(object):
 
     def render(self, surface):
         
-        grid_w, grid_h = (1,1)     
+        grid_w, grid_h = (1,1)
 
 class RainbowAnt(object):
     
@@ -192,10 +192,10 @@ class RainbowAnt(object):
 
         self.color = pygame.Color(self.grid.colors[self.grid.total_steps / 1000 % (len(self.grid.colors)-1)])
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
-                
+        
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
-        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height        
-                        
+        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height
+        
         if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
             self.direction = (self.direction-1) % 4
         else:
@@ -218,7 +218,7 @@ def run():
     screen = pygame.display.set_mode((w, h), 0, 32)
     
     default_font = pygame.font.get_default_font()
-    font = pygame.font.SysFont(default_font, 22)    
+    font = pygame.font.SysFont(default_font, 22)
     
     pygame.display.set_caption("Langton's Ants on Steroids")
 
@@ -259,7 +259,7 @@ def run():
 
             if event.type == KEYDOWN:
                 
-                if event.key == K_SPACE:                
+                if event.key == K_SPACE:
                     running = not running
                 
                 #Clear key
@@ -307,7 +307,7 @@ def run():
                     grid.updatespeed()
     
         if running:
-            for step_no in xrange(grid.frame_skip):        
+            for step_no in xrange(grid.frame_skip):
                 for ant in grid.ants:
                     ant.move()
             grid.total_steps += grid.frame_skip
