@@ -162,9 +162,9 @@ class Ant(object):
         else:
             self.direction = (self.direction+1) % 4
 
-    def render(self, surface, grid_size):
+    def render(self, surface):
         
-        grid_w, grid_h = grid_size     
+        grid_w, grid_h = (1,1)     
 
 class RainbowAnt(object):
     
@@ -234,8 +234,6 @@ def run():
                 if event.button == 1:
 
                     x, y = event.pos
-                    x /= GRID_SQUARE_SIZE[0]
-                    y /= GRID_SQUARE_SIZE[1]
                     
                     if x < GRID_SIZE[0]:
                         ant = Ant(grid, len(ants) + 1, int(x), int(y), grid.colors[len(ants) % len(grid.colors)], random.randint(0,3))
@@ -246,8 +244,6 @@ def run():
                 elif event.button == 3:
                     
                     x, y = event.pos
-                    x /= GRID_SQUARE_SIZE[0]
-                    y /= GRID_SQUARE_SIZE[1]
                     
                     if x < GRID_SIZE[0]:
                         ant = RainbowAnt(grid, len(ants) + 1, int(x), int(y), grid.colors[0], random.randint(0,3))
@@ -277,8 +273,6 @@ def run():
                 if event.key == K_KP_PLUS and grid.frame_skip<262144:
                     grid.frame_skip = grid.frame_skip * 4
                     grid.updatespeed()
-                
-        #grid.render(screen, GRID_SQUARE_SIZE)
     
         if running:
             for step_no in xrange(grid.frame_skip):        
@@ -287,7 +281,7 @@ def run():
             grid.total_steps += grid.frame_skip
 
         for ant in ants:
-            ant.render(screen, GRID_SQUARE_SIZE)
+            ant.render(screen)
 
         grid.updatestats(len(ants))
 
