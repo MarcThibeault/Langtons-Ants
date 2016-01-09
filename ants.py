@@ -208,7 +208,6 @@ def run():
     h = GRID_SIZE[1]
     screen = pygame.display.set_mode((w, h), 0, 32)
     
-    now = datetime.datetime.now()
     default_font = pygame.font.get_default_font()
     font = pygame.font.SysFont(default_font, 22)    
     
@@ -266,7 +265,8 @@ def run():
 
                 #Save key
                 if event.key == K_s:
-                    with open(now.strftime("%Y-%m-%d %H.%M") + '.csv', 'wb') as csvfile:
+                    now = datetime.datetime.now()
+                    with open(now.strftime("%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
                         csv_writer = csv.writer(csvfile)
                         for ant in ants:
                             csv_writer.writerow(ant.starting_params)
