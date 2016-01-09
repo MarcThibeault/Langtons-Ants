@@ -318,7 +318,6 @@ def run():
         grid.updatestats(len(grid.ants))
 
         pygame.display.update()
-        grid.updatespeed()
     
 if __name__ == "__main__":
     run()
