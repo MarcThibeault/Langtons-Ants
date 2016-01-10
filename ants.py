@@ -105,7 +105,7 @@ class AntGrid(object):
         Score3 = 0
 
         if nb_ants > 0:
-            for i in range(1, nb_ants + 1):
+            for i in range(len(self.ants), 0, -1):
                 if self.ants_couters[i] >= self.ants_couters[Score1]:
                     Score3 = Score2
                     Score2 = Score1
