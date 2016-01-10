@@ -13,7 +13,7 @@ def rgb_to_hex(rgb):
 
 class AntGrid(object):
     
-    colors = ("#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF")
+    colors = ["#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
     total_steps = 0
     frame_skip = 1
     explored = 0
@@ -110,23 +110,24 @@ class AntGrid(object):
                     Score3 = Score2
                     Score2 = Score1
                     Score1 = i
-                else:
-                    if self.ants_couters[i] >= self.ants_couters[Score2]:
+                elif self.ants_couters[i] >= self.ants_couters[Score2]:
                         Score3 = Score2
                         Score2 = i
-                    else:
-                        if self.ants_couters[i] >= self.ants_couters[Score3]:
+                elif self.ants_couters[i] >= self.ants_couters[Score3]:
                             Score3 = i
 
-            txt = font.render("%i  " %self.ants_couters[Score1], True, (hex_to_rgb(self.colors[Score1 % len(self.colors) - 1])))
-            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 192)))
-            self.screen.blit(txt, (self.width + 2, 192))
-            txt = font.render("%i  " %self.ants_couters[Score2], True, (hex_to_rgb(self.colors[Score2 % len(self.colors) - 1])))
-            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
-            self.screen.blit(txt, (self.width + 2, 208))
-            txt = font.render("%i  " %self.ants_couters[Score3], True, (hex_to_rgb(self.colors[Score3 % len(self.colors) - 1])))
-            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
-            self.screen.blit(txt, (self.width + 2, 224))
+            if len(self.ants) >= 1:
+                txt = font.render("%i  " %self.ants_couters[Score1], True, (self.ants[Score1-1].rgb_color))
+                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 192)))
+                self.screen.blit(txt, (self.width + 2, 192))
+            if len(self.ants) > 1:
+                txt = font.render("%i  " %self.ants_couters[Score2], True, (self.ants[Score2-1].rgb_color))
+                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
+                self.screen.blit(txt, (self.width + 2, 208))
+            if len(self.ants) > 2:
+                txt = font.render("%i  " %self.ants_couters[Score3], True, (self.ants[Score3-1].rgb_color))
+                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
+                self.screen.blit(txt, (self.width + 2, 224))
 
     #Update speed in stats, only when speed changes
     def updatespeed(self):
@@ -150,6 +151,7 @@ class Ant(object):
         self.x = x
         self.y = y
         self.color = pygame.Color(color)
+        self.rgb_color = hex_to_rgb(color)
         self.direction = direction
         self.grid.nb_ants += 1
 
@@ -182,15 +184,17 @@ class RainbowAnt(object):
         self.ant_id = ant_id
         self.x = x
         self.y = y
-        self.decimal_color = 1
         self.color = pygame.Color(color)
+        self.rgb_color = hex_to_rgb(color)
         self.direction = direction
         self.grid.nb_ants += 1
         
         
     def move(self):
 
-        self.color = pygame.Color(self.grid.colors[self.grid.total_steps / 1000 % (len(self.grid.colors)-1)])
+        new_color = self.grid.colors[self.grid.total_steps / 1000 % (len(self.grid.colors)-1)]
+        self.color = pygame.Color(new_color)
+        self.rgb_color = hex_to_rgb(new_color)
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
         
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
