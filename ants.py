@@ -47,7 +47,7 @@ class AntGrid(object):
 
         self.statslabels()
         self.updatespeed()
-        self.updatestats(0)
+        self.updatestats()
     
     # Swaps grid pixels from black to color or color to black
     def colorswap(self, x, y, ant_id, color):
@@ -85,7 +85,7 @@ class AntGrid(object):
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
 
     # Update stats data
-    def updatestats(self, nb_ants):
+    def updatestats(self):
         percent_explored = float(float(self.explored) / (self.height * self.width) * 100)
 
         font = pygame.font.SysFont("monospace", 15)
@@ -96,7 +96,7 @@ class AntGrid(object):
         txt = font.render("%s" %str(round(percent_explored, 2)) + "%   ", True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 112)))
         self.screen.blit(txt, (self.width + 2, 112))
-        txt = font.render("%i" %nb_ants, True, (255, 255, 255))
+        txt = font.render("%i" %len(self.ants), True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 144)))
         self.screen.blit(txt, (self.width + 2, 144))
 
@@ -104,7 +104,7 @@ class AntGrid(object):
         Score2 = 0
         Score3 = 0
 
-        if nb_ants > 0:
+        if len(self.ants) > 0:
             for i in range(len(self.ants), 0, -1):
                 if self.ants_couters[i] >= self.ants_couters[Score1]:
                     Score3 = Score2
@@ -319,7 +319,7 @@ def run():
         for ant in grid.ants:
             ant.render(screen)
 
-        grid.updatestats(len(grid.ants))
+        grid.updatestats()
 
         pygame.display.update()
     
