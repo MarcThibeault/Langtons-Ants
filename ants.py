@@ -1,15 +1,7 @@
 import pygame, random, csv, datetime
 import Tkinter, tkFileDialog
 from pygame.locals import *
-
-#Global Functions
-def hex_to_rgb(value):
-    value = value.lstrip('#')
-    lv = len(value)
-    return tuple(int(value[i:i + lv // 3], 16) for i in range(0, lv, lv // 3))
-
-def rgb_to_hex(rgb):
-    return '#%02x%02x%02x' % rgb
+import globalfunctions
 
 class AntGrid(object):
     
@@ -151,7 +143,7 @@ class Ant(object):
         self.x = x
         self.y = y
         self.color = pygame.Color(color)
-        self.rgb_color = hex_to_rgb(color)
+        self.rgb_color = globalfunctions.hex_to_rgb(color)
         self.direction = direction
         self.grid.nb_ants += 1
 
@@ -185,7 +177,7 @@ class RainbowAnt(object):
         self.x = x
         self.y = y
         self.color = pygame.Color(color)
-        self.rgb_color = hex_to_rgb(color)
+        self.rgb_color = globalfunctions.hex_to_rgb(color)
         self.direction = direction
         self.grid.nb_ants += 1
         
@@ -194,7 +186,7 @@ class RainbowAnt(object):
 
         new_color = self.grid.colors[self.grid.total_steps / 1000 % (len(self.grid.colors)-1)]
         self.color = pygame.Color(new_color)
-        self.rgb_color = hex_to_rgb(new_color)
+        self.rgb_color = globalfunctions.hex_to_rgb(new_color)
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
         
         self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
