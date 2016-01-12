@@ -147,8 +147,11 @@ class Ant(object):
         self.direction = direction
         self.grid.nb_ants += 1
 
+        self.grid.ants.append(self)
+        self.grid.ants_couters.append(0)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+
         self.starting_params = (x, y, direction, self.grid.total_steps)
-        
         
     def move(self):
                 
@@ -180,7 +183,10 @@ class RainbowAnt(object):
         self.rgb_color = globalfunctions.hex_to_rgb(color)
         self.direction = direction
         self.grid.nb_ants += 1
-        
+
+        self.grid.ants.append(self)
+        self.grid.ants_couters.append(0)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
         
     def move(self):
 
@@ -239,9 +245,6 @@ def run():
                     
                     if x < GRID_SIZE[0]:
                         ant = Ant(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], random.randint(0,3))
-                        grid.ants.append(ant)
-                        grid.ants_couters.append(0)
-                        grid.colorswap(x, y, ant.ant_id, ant.color)
 
                 elif event.button == 3:
                     
@@ -249,9 +252,6 @@ def run():
                     
                     if x < GRID_SIZE[0]:
                         ant = RainbowAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[0], random.randint(0,3))
-                        grid.ants.append(ant)
-                        grid.ants_couters.append(0)
-                        grid.colorswap(x, y, ant.ant_id, ant.color)
 
             if event.type == KEYDOWN:
                 
@@ -281,9 +281,6 @@ def run():
                             y = int(row[1])
                             direction = int(row[2])
                             ant = Ant(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], direction)
-                            grid.ants.append(ant)
-                            grid.ants_couters.append(0)
-                            grid.colorswap(x, y, ant.ant_id, ant.color)
 
                 #Save key
                 if event.key == K_s:
