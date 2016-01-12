@@ -11,3 +11,5 @@ Made using Python + pygame.
 * Left clicking creates a new ant
 * + / - changes the simulation's speed
 * C resests the simulation
+* S saves your ants' starting position and direction in a CSV
+* L loads a saved CSV from a previously saved simulation
