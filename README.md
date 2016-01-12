@@ -1,4 +1,4 @@
-# Langtons-Ants-Python on Steriods
+# Langtons-Ants on Steriods
 By Marc Thibeault & Josaphat Comeau
 
 Made using Python + pygame. 
