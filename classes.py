@@ -10,7 +10,7 @@ class AntGrid(object):
     colors = ["#000000", "#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
     mode = 1
     antmode = ""
-    modenames = ["Steroids", "Langton", "Turk-Propp"]
+    modenames = ["Free4All", "Langton", "Turk-Propp"]
     total_steps = 0
     frame_skip = 1
     explored = 0
@@ -42,7 +42,7 @@ class AntGrid(object):
             #ClassicAnt for now...
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[1 + len(self.ants) % (len(self.colors) - 1)], 0)
         elif self.mode == 0:
-            #Steroids mode
+            #Free4All mode
             self.antmode = "LR"
             self.clear()
     
