@@ -83,7 +83,7 @@ def run():
                     running = False
 
                 #Load key
-                if event.key == K_d:
+                if event.key == K_d and grid.mode == 0:
                     Tkinter.Tk().withdraw() # Close the root window
                     csv_path = tkFileDialog.askopenfilename()
                     #Turn around to set back focus on main window
@@ -99,10 +99,10 @@ def run():
                             x = int(row[0])
                             y = int(row[1])
                             direction = int(row[2])
-                            ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[1 + len(grid.ants) % (len(grid.colors) - 1)], direction)
+                            ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[1 + len(grid.ants) % (len(grid.colors) - 1)], direction)
 
                 #Save key
-                if event.key == K_s:
+                if event.key == K_s  and grid.mode == 0:
                     now = datetime.datetime.now()
                     with open(now.strftime("(" + str(len(grid.ants)) + ") "  "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
                         csv_writer = csv.writer(csvfile)
