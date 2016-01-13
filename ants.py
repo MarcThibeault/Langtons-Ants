@@ -52,6 +52,7 @@ def run():
 
             if event.type == KEYDOWN:
 
+                #Modes
                 if event.key == K_1:
                     running = False
                     grid.setmode(1)
@@ -64,6 +65,7 @@ def run():
                     running = False
                     grid.setmode(0)
                 
+                #Pause simulation
                 if event.key == K_SPACE:
                     running = not running
                 
