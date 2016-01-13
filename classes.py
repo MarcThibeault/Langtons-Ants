@@ -32,12 +32,12 @@ class AntGrid(object):
         if self.mode == 1:
             #Langton mode
             self.clear()
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 3)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 0)
         elif self.mode == 2:
             #Turk-Propp mode
             self.clear()
             #ClassicAnt for now...
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 3)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 0)
         elif self.mode == 0:
             #Steroids mode
             self.clear()
