@@ -8,6 +8,8 @@ import globalfunctions
 class AntGrid(object):
     
     colors = ["#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
+    mode = 1
+    modenames = ["Steroids", "Langton", "Turk-Propp"]
     total_steps = 0
     frame_skip = 1
     explored = 0
@@ -21,6 +23,24 @@ class AntGrid(object):
         self.width = width
         self.height = height
         self.clear()
+
+    #setmode takes care of the starting params for each mode
+    def setmode(self, mode):
+
+        self.mode = mode
+
+        if self.mode == 1:
+            #Langton mode
+            self.clear()
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 3)
+        elif self.mode == 2:
+            #Turk-Propp mode
+            self.clear()
+            #ClassicAnt for now...
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 3)
+        elif self.mode == 0:
+            #Steroids mode
+            self.clear()
     
     def clear(self):
         
@@ -63,18 +83,20 @@ class AntGrid(object):
     def statslabels(self):
         font = pygame.font.SysFont("monospace", 15)
 
-        txt = font.render("STATISTICS", True, (255, 255, 255))
+        txt = font.render("MODE", True, (255, 255, 255))
         self.screen.blit(txt, (self.width + 2, 0))
+        txt = font.render("%s" %self.modenames[self.mode], True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 16))
         txt = font.render("Speed", True, (255, 255, 255))
-        self.screen.blit(txt, (self.width + 2, 32))
+        self.screen.blit(txt, (self.width + 2, 48))
         txt = font.render("Steps", True, (255, 255, 255))
-        self.screen.blit(txt, (self.width + 2, 64))
+        self.screen.blit(txt, (self.width + 2, 80))
         txt = font.render("Explored", True, (255, 255, 255))
-        self.screen.blit(txt, (self.width + 2, 96))
+        self.screen.blit(txt, (self.width + 2, 112))
         txt = font.render("Ants", True, (255, 255, 255))
-        self.screen.blit(txt, (self.width + 2, 128))
-        txt = font.render("Top 3", True, (255, 255, 255))
-        self.screen.blit(txt, (self.width + 2, 176))
+        self.screen.blit(txt, (self.width + 2, 144))
+        txt = font.render("SCORES", True, (255, 255, 255))
+        self.screen.blit(txt, (self.width + 2, 192))
 
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
 
@@ -85,14 +107,14 @@ class AntGrid(object):
         font = pygame.font.SysFont("monospace", 15)
 
         txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
-        self.screen.blit(txt, (self.width + 2, 80))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 96)))
+        self.screen.blit(txt, (self.width + 2, 96))
         txt = font.render("%s" %str(round(percent_explored, 2)) + "%   ", True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 112)))
-        self.screen.blit(txt, (self.width + 2, 112))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 128)))
+        self.screen.blit(txt, (self.width + 2, 128))
         txt = font.render("%i" %len(self.ants), True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 144)))
-        self.screen.blit(txt, (self.width + 2, 144))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 160)))
+        self.screen.blit(txt, (self.width + 2, 160))
 
         Score1 = 0
         Score2 = 0
@@ -112,24 +134,24 @@ class AntGrid(object):
 
             if len(self.ants) >= 1:
                 txt = font.render("%i  " %self.ants_couters[Score1], True, (self.ants[Score1-1].rgb_color))
-                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 192)))
-                self.screen.blit(txt, (self.width + 2, 192))
-            if len(self.ants) > 1:
-                txt = font.render("%i  " %self.ants_couters[Score2], True, (self.ants[Score2-1].rgb_color))
                 self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
                 self.screen.blit(txt, (self.width + 2, 208))
-            if len(self.ants) > 2:
-                txt = font.render("%i  " %self.ants_couters[Score3], True, (self.ants[Score3-1].rgb_color))
+            if len(self.ants) > 1:
+                txt = font.render("%i  " %self.ants_couters[Score2], True, (self.ants[Score2-1].rgb_color))
                 self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
                 self.screen.blit(txt, (self.width + 2, 224))
+            if len(self.ants) > 2:
+                txt = font.render("%i  " %self.ants_couters[Score3], True, (self.ants[Score3-1].rgb_color))
+                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 240)))
+                self.screen.blit(txt, (self.width + 2, 240))
 
     #Update speed in stats, only when speed changes
     def updatespeed(self):
         font = pygame.font.SysFont("monospace", 15)
 
         txt = font.render("%ix  " %self.frame_skip, True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 48)))
-        self.screen.blit(txt, (self.width + 2, 48))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 64)))
+        self.screen.blit(txt, (self.width + 2, 64))
     
     def get(self, x, y):
         return self.rows[y][x]

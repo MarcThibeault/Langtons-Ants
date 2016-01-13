@@ -23,8 +23,8 @@ def run():
     grid = classes.AntGrid(screen, *GRID_SIZE)
     grid.ants = []
     grid.ants_couters.append(0)
-    grid.statslabels()
     running = False
+    grid.setmode(1)
     
     while True:
         
@@ -50,6 +50,18 @@ def run():
                         ant = classes.RainbowAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[0], random.randint(0,3))
 
             if event.type == KEYDOWN:
+
+                if event.key == K_1:
+                    running = False
+                    grid.setmode(1)
+
+                if event.key == K_2:
+                    running = False
+                    grid.setmode(2)
+
+                if event.key == K_0:
+                    running = False
+                    grid.setmode(0)
                 
                 if event.key == K_SPACE:
                     running = not running
