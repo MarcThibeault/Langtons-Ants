@@ -7,7 +7,7 @@ import globalfunctions
 #All classes
 class AntGrid(object):
     
-    colors = ["#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
+    colors = ["#000000", "#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
     mode = 1
     antmode = ""
     modenames = ["Steroids", "Langton", "Turk-Propp"]
@@ -34,13 +34,13 @@ class AntGrid(object):
             #Langton mode
             self.antmode = "LR"
             self.clear()
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 0)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[1 + len(self.ants) % (len(self.colors) - 1)], 0)
         elif self.mode == 2:
             #Turk-Propp mode
             self.antmode = ""
             self.clear()
             #ClassicAnt for now...
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 0)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[1 + len(self.ants) % (len(self.colors) - 1)], 0)
         elif self.mode == 0:
             #Steroids mode
             self.antmode = "LR"
