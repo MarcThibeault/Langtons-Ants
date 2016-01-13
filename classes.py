@@ -271,13 +271,13 @@ class RainbowAnt(object):
         
     def move(self):
 
-        new_color = self.grid.colors[self.grid.total_steps / 1000 % (len(self.grid.colors)-1)]
+        new_color = self.grid.colors[1 + self.grid.total_steps / 1000 % (len(self.grid.colors) - 1)]
         self.color = pygame.Color(new_color)
         self.rgb_color = globalfunctions.hex_to_rgb(new_color)
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
         
-        self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
-        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height
+        self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
+        self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
         
         if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
             self.direction = (self.direction-1) % 4
