@@ -24,7 +24,8 @@ def run():
     grid.ants = []
     grid.ants_couters.append(0)
     running = False
-    grid.setmode(1)
+    grid.mode = 1
+    grid.setmode(grid.mode)
     
     while True:
         
@@ -68,7 +69,7 @@ def run():
                 
                 #Clear key
                 if event.key == K_c:
-                    grid.clear()
+                    grid.setmode(grid.mode)
                     running = False
 
                 #Load key
