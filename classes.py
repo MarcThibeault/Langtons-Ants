@@ -201,7 +201,6 @@ class ClassicAnt(object):
                 self.direction = (self.direction-1) % 4
             elif self.grid.antmode[self.grid.rows[self.y][self.x]] == "R":
                 self.direction = (self.direction+1) % 4
-                print "%s" %self.grid.antmode[self.grid.rows[self.y][self.x]]
 
         self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
