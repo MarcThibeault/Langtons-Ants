@@ -9,6 +9,7 @@ class AntGrid(object):
     
     colors = ["#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
     mode = 1
+    antmode = ""
     modenames = ["Steroids", "Langton", "Turk-Propp"]
     total_steps = 0
     frame_skip = 1
@@ -31,15 +32,18 @@ class AntGrid(object):
 
         if self.mode == 1:
             #Langton mode
+            self.antmode = "LR"
             self.clear()
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 0)
         elif self.mode == 2:
             #Turk-Propp mode
+            self.antmode = ""
             self.clear()
             #ClassicAnt for now...
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[len(self.ants) % len(self.colors)], 0)
         elif self.mode == 0:
             #Steroids mode
+            self.antmode = "LR"
             self.clear()
     
     def clear(self):
@@ -84,20 +88,28 @@ class AntGrid(object):
         font = pygame.font.SysFont("monospace", 15)
 
         txt = font.render("MODE", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 0)))
         self.screen.blit(txt, (self.width + 2, 0))
         txt = font.render("%s" %self.modenames[self.mode], True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 16)))
         self.screen.blit(txt, (self.width + 2, 16))
-        txt = font.render("LR", True, (255, 255, 255))
+        txt = font.render("%s" %self.antmode, True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 32)))
         self.screen.blit(txt, (self.width + 2, 32))
         txt = font.render("Speed", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 64)))
         self.screen.blit(txt, (self.width + 2, 64))
         txt = font.render("Steps", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 96)))
         self.screen.blit(txt, (self.width + 2, 96))
         txt = font.render("Explored", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 128)))
         self.screen.blit(txt, (self.width + 2, 128))
         txt = font.render("Ants", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 160)))
         self.screen.blit(txt, (self.width + 2, 160))
         txt = font.render("SCORES", True, (255, 255, 255))
+        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
         self.screen.blit(txt, (self.width + 2, 208))
 
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
