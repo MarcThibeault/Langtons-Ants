@@ -72,7 +72,7 @@ def run():
                     running = False
 
                 #Load key
-                if event.key == K_l:
+                if event.key == K_d:
                     Tkinter.Tk().withdraw() # Close the root window
                     csv_path = tkFileDialog.askopenfilename()
                     #Turn around to set back focus on main window
