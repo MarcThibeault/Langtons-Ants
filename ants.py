@@ -40,7 +40,7 @@ def run():
                     x, y = event.pos
                     
                     if x < GRID_SIZE[0]:
-                        ant = classes.Ant(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], random.randint(0,3))
+                        ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], random.randint(0,3))
 
                 elif event.button == 3:
                     
@@ -76,7 +76,7 @@ def run():
                             x = int(row[0])
                             y = int(row[1])
                             direction = int(row[2])
-                            ant = classes.Ant(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], direction)
+                            ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[len(grid.ants) % len(grid.colors)], direction)
 
                 #Save key
                 if event.key == K_s:

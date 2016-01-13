@@ -134,7 +134,7 @@ class AntGrid(object):
     def get(self, x, y):
         return self.rows[y][x]
   
-class Ant(object):
+class ClassicAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
@@ -159,8 +159,8 @@ class Ant(object):
                 
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
                 
-        self.x = ( self.x + Ant.directions[self.direction][0] ) % self.grid.width
-        self.y = ( self.y + Ant.directions[self.direction][1] ) % self.grid.height
+        self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
+        self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
                         
         if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
             self.direction = (self.direction-1) % 4
