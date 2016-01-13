@@ -170,6 +170,7 @@ class AntGrid(object):
     def get(self, x, y):
         return self.rows[y][x]
   
+#Classic ant moving and evolving using a "LR" mode
 class ClassicAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
@@ -206,6 +207,44 @@ class ClassicAnt(object):
         self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
 
         self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+
+    def render(self, surface):
+        
+        grid_w, grid_h = (1,1)
+
+#Ant considering only 2 colors: Black or not black
+class Free4AllAnt(object):
+    
+    directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
+    
+    def __init__(self, grid, ant_id, x, y, color, direction):
+        
+        self.grid = grid
+        self.ant_id = ant_id
+        self.x = x
+        self.y = y
+        self.color = pygame.Color(color)
+        self.rgb_color = globalfunctions.hex_to_rgb(color)
+        self.direction = direction
+        self.grid.nb_ants += 1
+
+        self.grid.ants.append(self)
+        self.grid.ants_couters.append(0)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+
+        self.starting_params = (x, y, direction, self.grid.total_steps)
+        
+    def move(self):
+                
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+                
+        self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
+        self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
+                        
+        if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
+            self.direction = (self.direction-1) % 4
+        else:
+            self.direction = (self.direction+1) % 4
 
     def render(self, surface):
         
