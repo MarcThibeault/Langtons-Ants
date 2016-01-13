@@ -68,16 +68,16 @@ class AntGrid(object):
         self.updatestats()
     
     # Swaps grid pixels from black to color or color to black
-    def colorswap(self, x, y, ant_id, color):
+    def colorswap(self, x, y, color_id, color):
         if self.rows[y][x] == "X":
-            self.rows[y][x] = ant_id
+            self.rows[y][x] = color_id
             self.screen.set_at((x, y), color)
             self.explored += 1
-            self.ants_couters[ant_id] += 1
+            self.ants_couters[color_id] += 1
         elif self.rows[y][x] == 0:
-            self.rows[y][x] = ant_id
+            self.rows[y][x] = color_id
             self.screen.set_at((x, y), color)
-            self.ants_couters[ant_id] += 1
+            self.ants_couters[color_id] += 1
         else:
             self.ants_couters[self.rows[y][x]] -= 1
             self.rows[y][x] = 0
@@ -192,16 +192,21 @@ class ClassicAnt(object):
         self.starting_params = (x, y, direction, self.grid.total_steps)
         
     def move(self):
-                
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
-                
-        self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
-        self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
-                        
-        if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
+
+
+        if self.grid.rows[self.y][self.x] == "X":
             self.direction = (self.direction-1) % 4
         else:
-            self.direction = (self.direction+1) % 4
+            if self.grid.antmode[self.grid.rows[self.y][self.x]] == "L":
+                self.direction = (self.direction-1) % 4
+            elif self.grid.antmode[self.grid.rows[self.y][self.x]] == "R":
+                self.direction = (self.direction+1) % 4
+                print "%s" %self.grid.antmode[self.grid.rows[self.y][self.x]]
+
+        self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
+        self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
+
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
 
     def render(self, surface):
         
