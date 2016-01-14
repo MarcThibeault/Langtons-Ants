@@ -117,9 +117,11 @@ class AntGrid(object):
         txt = font.render("Ants", True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 160)))
         self.screen.blit(txt, (self.width + 2, 160))
-        txt = font.render("SCORES", True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
-        self.screen.blit(txt, (self.width + 2, 208))
+
+        if self.mode == 0:
+            txt = font.render("SCORES", True, (255, 255, 255))
+            self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 208)))
+            self.screen.blit(txt, (self.width + 2, 208))
 
         pygame.draw.line(self.screen, (255, 255, 255), (self.width, 0), (self.width, self.height))
 
@@ -139,34 +141,35 @@ class AntGrid(object):
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 176)))
         self.screen.blit(txt, (self.width + 2, 176))
 
-        Score1 = 0
-        Score2 = 0
-        Score3 = 0
+        if self.mode == 0:
+            Score1 = 0
+            Score2 = 0
+            Score3 = 0
 
-        if len(self.ants) > 0:
-            for i in range(len(self.ants), 0, -1):
-                if self.ants_couters[i] >= self.ants_couters[Score1]:
-                    Score3 = Score2
-                    Score2 = Score1
-                    Score1 = i
-                elif self.ants_couters[i] >= self.ants_couters[Score2]:
+            if len(self.ants) > 0:
+                for i in range(len(self.ants), 0, -1):
+                    if self.ants_couters[i] >= self.ants_couters[Score1]:
                         Score3 = Score2
-                        Score2 = i
-                elif self.ants_couters[i] >= self.ants_couters[Score3]:
-                            Score3 = i
+                        Score2 = Score1
+                        Score1 = i
+                    elif self.ants_couters[i] >= self.ants_couters[Score2]:
+                            Score3 = Score2
+                            Score2 = i
+                    elif self.ants_couters[i] >= self.ants_couters[Score3]:
+                                Score3 = i
 
-            if len(self.ants) >= 1:
-                txt = font.render("%i  " %self.ants_couters[Score1], True, (self.ants[Score1-1].rgb_color))
-                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
-                self.screen.blit(txt, (self.width + 2, 224))
-            if len(self.ants) > 1:
-                txt = font.render("%i  " %self.ants_couters[Score2], True, (self.ants[Score2-1].rgb_color))
-                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 240)))
-                self.screen.blit(txt, (self.width + 2, 240))
-            if len(self.ants) > 2:
-                txt = font.render("%i  " %self.ants_couters[Score3], True, (self.ants[Score3-1].rgb_color))
-                self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 256)))
-                self.screen.blit(txt, (self.width + 2, 256))
+                if len(self.ants) >= 1:
+                    txt = font.render("%i  " %self.ants_couters[Score1], True, (self.ants[Score1-1].rgb_color))
+                    self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 224)))
+                    self.screen.blit(txt, (self.width + 2, 224))
+                if len(self.ants) > 1:
+                    txt = font.render("%i  " %self.ants_couters[Score2], True, (self.ants[Score2-1].rgb_color))
+                    self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 240)))
+                    self.screen.blit(txt, (self.width + 2, 240))
+                if len(self.ants) > 2:
+                    txt = font.render("%i  " %self.ants_couters[Score3], True, (self.ants[Score3-1].rgb_color))
+                    self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 256)))
+                    self.screen.blit(txt, (self.width + 2, 256))
 
     #Update speed in stats, only when speed changes
     def updatespeed(self):
