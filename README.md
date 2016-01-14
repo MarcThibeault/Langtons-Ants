@@ -28,5 +28,5 @@ Each mode has a few specific controls as follows.
  * Left click to create rainbow ants (!)
  * Press space bar to start
  * Press S to save your starting ant positions to a CSV file. 
- * Press L to load a previously saved CSV file. 
+ * Press D to load a previously saved CSV file. 
  * Press C to reset the simulation
