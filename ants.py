@@ -41,14 +41,14 @@ def run():
                     x, y = event.pos
                     
                     if x < GRID_SIZE[0]:
-                        ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[1 + len(grid.ants) % (len(grid.colors) - 1)], random.randint(0,3))
+                        ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), (1 + len(grid.ants) % (len(grid.colors) - 1)), random.randint(0,3))
 
                 elif event.button == 3 and grid.mode == 0:
                     
                     x, y = event.pos
                     
                     if x < GRID_SIZE[0]:
-                        ant = classes.RainbowAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[1], random.randint(0,3))
+                        ant = classes.RainbowAnt(grid, len(grid.ants) + 1, int(x), int(y), 1, random.randint(0,3))
 
             if event.type == KEYDOWN:
 
@@ -99,7 +99,7 @@ def run():
                             x = int(row[0])
                             y = int(row[1])
                             direction = int(row[2])
-                            ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), grid.colors[1 + len(grid.ants) % (len(grid.colors) - 1)], direction)
+                            ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
 
                 #Save key
                 if event.key == K_s  and grid.mode == 0:

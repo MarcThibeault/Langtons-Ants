@@ -34,13 +34,13 @@ class AntGrid(object):
             #Langton mode
             self.antmode = "LR"
             self.clear()
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[1 + len(self.ants) % (len(self.colors) - 1)], 0)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0, 0)
         elif self.mode == 2:
             #Turk-Propp mode
             self.antmode = ""
             self.clear()
             #ClassicAnt for now...
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, self.colors[1 + len(self.ants) % (len(self.colors) - 1)], 0)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0, 0)
         elif self.mode == 0:
             #Free4All mode
             self.antmode = "LR"
@@ -68,16 +68,16 @@ class AntGrid(object):
         self.updatestats()
     
     # Swaps grid pixels from black to color or color to black
-    def colorswap(self, x, y, color_id, color):
+    def colorswap(self, x, y, ant_id, color_id):
         if self.rows[y][x] == "X":
-            self.rows[y][x] = color_id
-            self.screen.set_at((x, y), color)
+            self.rows[y][x] = ant_id
+            self.screen.set_at((x, y), pygame.Color(self.colors[color_id]))
             self.explored += 1
-            self.ants_couters[color_id] += 1
+            self.ants_couters[ant_id] += 1
         elif self.rows[y][x] == 0:
-            self.rows[y][x] = color_id
-            self.screen.set_at((x, y), color)
-            self.ants_couters[color_id] += 1
+            self.rows[y][x] = ant_id
+            self.screen.set_at((x, y), pygame.Color(self.colors[color_id]))
+            self.ants_couters[ant_id] += 1
         else:
             self.ants_couters[self.rows[y][x]] -= 1
             self.rows[y][x] = 0
@@ -175,20 +175,21 @@ class ClassicAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
-    def __init__(self, grid, ant_id, x, y, color, direction):
+    def __init__(self, grid, ant_id, x, y, color_id, direction):
         
         self.grid = grid
         self.ant_id = ant_id
+        self.color_id = color_id
         self.x = x
         self.y = y
-        self.color = pygame.Color(color)
-        self.rgb_color = globalfunctions.hex_to_rgb(color)
+        self.color = pygame.Color(self.grid.colors[color_id])
+        self.rgb_color = globalfunctions.hex_to_rgb(self.grid.colors[color_id])
         self.direction = direction
         self.grid.nb_ants += 1
 
         self.grid.ants.append(self)
         self.grid.ants_couters.append(0)
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+        #self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
 
         self.starting_params = (x, y, direction, self.grid.total_steps)
         
@@ -196,17 +197,24 @@ class ClassicAnt(object):
 
 
         if self.grid.rows[self.y][self.x] == "X":
-            self.direction = (self.direction-1) % 4
+            self.color_id = 1
+            if self.grid.antmode[0] == "L":
+                self.direction = (self.direction-1) % 4
+            elif self.grid.antmode[0] == "R":
+                self.direction = (self.direction+1) % 4            
         else:
+            self.color_id = (self.grid.rows[self.y][self.x] + 1) % len(self.grid.antmode)
             if self.grid.antmode[self.grid.rows[self.y][self.x]] == "L":
                 self.direction = (self.direction-1) % 4
             elif self.grid.antmode[self.grid.rows[self.y][self.x]] == "R":
-                self.direction = (self.direction+1) % 4
+                self.direction = (self.direction+1) % 4            
+
+        #self.color = pygame.Color(self.grid.colors[self.color_id])
+
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
 
         self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
-
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
 
     def render(self, surface):
         
@@ -217,26 +225,27 @@ class Free4AllAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
-    def __init__(self, grid, ant_id, x, y, color, direction):
+    def __init__(self, grid, ant_id, x, y, color_id, direction):
         
         self.grid = grid
         self.ant_id = ant_id
+        self.color_id = color_id
         self.x = x
         self.y = y
-        self.color = pygame.Color(color)
-        self.rgb_color = globalfunctions.hex_to_rgb(color)
+        self.color = pygame.Color(self.grid.colors[color_id])
+        self.rgb_color = globalfunctions.hex_to_rgb(self.grid.colors[self.color_id])
         self.direction = direction
         self.grid.nb_ants += 1
 
         self.grid.ants.append(self)
         self.grid.ants_couters.append(0)
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
 
         self.starting_params = (x, y, direction, self.grid.total_steps)
         
     def move(self):
                 
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
                 
         self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
@@ -254,27 +263,29 @@ class RainbowAnt(object):
     
     directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
     
-    def __init__(self, grid, ant_id, x, y, color, direction):
+    def __init__(self, grid, ant_id, x, y, color_id, direction):
         
         self.grid = grid
         self.ant_id = ant_id
+        self.color_id = color_id
         self.x = x
         self.y = y
-        self.color = pygame.Color(color)
-        self.rgb_color = globalfunctions.hex_to_rgb(color)
+        self.color = pygame.Color(self.grid.colors[color_id])
+        self.rgb_color = globalfunctions.hex_to_rgb(self.grid.colors[color_id])
         self.direction = direction
         self.grid.nb_ants += 1
 
         self.grid.ants.append(self)
         self.grid.ants_couters.append(0)
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+        self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
         
     def move(self):
 
-        new_color = self.grid.colors[1 + self.grid.total_steps / 1000 % (len(self.grid.colors) - 1)]
+        new_color_id = 1 + self.grid.total_steps / 1000 % (len(self.grid.colors) - 1)
+        new_color = self.grid.colors[new_color_id]
         self.color = pygame.Color(new_color)
         self.rgb_color = globalfunctions.hex_to_rgb(new_color)
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color)
+        self.grid.colorswap(self.x, self.y, self.ant_id, new_color_id)
         
         self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
