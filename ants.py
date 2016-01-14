@@ -73,9 +73,10 @@ def run():
                     grid.antmode += "R"
                     grid.statslabels()
 
-                #Pause simulation
+                #Pause/Start simulation
                 if event.key == K_SPACE:
-                    running = not running
+                    if len(grid.antmode) > 1:
+                        running = not running
                 
                 #Clear key
                 if event.key == K_c:
