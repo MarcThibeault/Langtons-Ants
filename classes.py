@@ -201,13 +201,13 @@ class ClassicAnt(object):
             if self.grid.antmode[0] == "L":
                 self.direction = (self.direction-1) % 4
             elif self.grid.antmode[0] == "R":
-                self.direction = (self.direction+1) % 4            
+                self.direction = (self.direction+1) % 4
         else:
             self.color_id = (self.grid.rows[self.y][self.x] + 1) % len(self.grid.antmode)
             if self.grid.antmode[self.grid.rows[self.y][self.x]] == "L":
                 self.direction = (self.direction-1) % 4
             elif self.grid.antmode[self.grid.rows[self.y][self.x]] == "R":
-                self.direction = (self.direction+1) % 4            
+                self.direction = (self.direction+1) % 4
 
         #self.color = pygame.Color(self.grid.colors[self.color_id])
 
