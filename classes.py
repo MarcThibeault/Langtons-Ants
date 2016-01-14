@@ -67,7 +67,16 @@ class AntGrid(object):
         self.updatespeed()
         self.updatestats()
     
-    # Swaps grid pixels from black to color or color to black
+    # Increments the color of a pixel
+    def incrementcolor(self, x, y):
+        if self.rows[y][x] == "X":
+            self.explored += 1
+            self.rows[y][x] = 0
+
+        self.rows[y][x] = (self.rows[y][x] + 1)  % len(self.antmode)
+        self.screen.set_at((x, y), pygame.Color(self.colors[self.rows[y][x] % len(self.colors)]))
+
+    # Swaps grid pixels from black to color or color to black for Free4All ants
     def colorswap(self, x, y, ant_id, color_id):
         if self.rows[y][x] == "X":
             self.rows[y][x] = ant_id
@@ -211,7 +220,9 @@ class ClassicAnt(object):
 
         #self.color = pygame.Color(self.grid.colors[self.color_id])
 
-        self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
+        #self.grid.colorswap(self.x, self.y, self.color_id, self.color_id)
+
+        self.grid.incrementcolor(self.x, self.y)
 
         self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
         self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
