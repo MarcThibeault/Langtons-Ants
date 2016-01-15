@@ -172,7 +172,7 @@ class AntGrid(object):
 #Classic ant moving and evolving using a "LR" mode
 class ClassicAnt(object):
     
-    directions = ((-1,0), (0,-1), (+1,0), (0,+1) )
+    directions = ((0,-1), (+1,0), (0,+1), (-1,0))
     
     def __init__(self, grid, ant_id, x, y, color_id, direction):
         
@@ -224,7 +224,7 @@ class ClassicAnt(object):
 #Ant considering only 2 colors: Black or not black
 class Free4AllAnt(object):
     
-    directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
+    directions = ((0,-1), (+1,0), (0,+1), (-1,0))
     
     def __init__(self, grid, ant_id, x, y, color_id, direction):
         
@@ -262,7 +262,7 @@ class Free4AllAnt(object):
 
 class RainbowAnt(object):
     
-    directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
+    directions = ((0,-1), (+1,0), (0,+1), (-1,0))
     
     def __init__(self, grid, ant_id, x, y, color_id, direction):
         
