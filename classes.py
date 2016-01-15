@@ -7,7 +7,7 @@ import globalfunctions
 #All classes
 class AntGrid(object):
     
-    colors = ["#000000", "#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF", "#FFFFFF"]
+    colors = ["#000000", "#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF"]
     mode = 1
     antmode = ""
     modenames = ["Free4All", "Langton", "Turk-Propp"]
