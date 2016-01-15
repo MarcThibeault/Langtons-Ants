@@ -32,18 +32,17 @@ class AntGrid(object):
 
         if self.mode == 1:
             #Langton mode
-            self.antmode = "LR"
+            self.antmode = "RL"
             self.clear()
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0, 0)
         elif self.mode == 2:
             #Turk-Propp mode
             self.antmode = ""
             self.clear()
-            #ClassicAnt for now...
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0, 0)
         elif self.mode == 0:
             #Free4All mode
-            self.antmode = "LR"
+            self.antmode = "RL"
             self.clear()
     
     def clear(self):
@@ -185,7 +184,7 @@ class AntGrid(object):
 #Classic ant moving and evolving using a "LR" mode
 class ClassicAnt(object):
     
-    directions = ( (0,-1), (+1,0), (0,+1), (-1,0) )
+    directions = ((-1,0), (0,-1), (+1,0), (0,+1) )
     
     def __init__(self, grid, ant_id, x, y, color_id, direction):
         

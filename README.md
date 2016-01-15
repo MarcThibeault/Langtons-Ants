@@ -10,7 +10,7 @@ As of January 2016 it has 3 modes as explained below.
 #Modes and Controls
 Each mode has a few specific controls as follows.
 ### 1. Classic Langton Mode
-* Press 1 for Classic Langton Mode: One ant using the LR movement scheme. There's not much more to it. 
+* Press 1 for Classic Langton Mode: One ant using the RL movement scheme. There's not much more to it. 
  * Press space bar to start / pause the simulation
  * Press + / - to adjust speed
  * Press C to reset the simulation
@@ -23,7 +23,7 @@ Each mode has a few specific controls as follows.
  * Press C to reset the simulation
 
 ### 3. Free4All mode
-* Press 0 for Free4All mode in which you add your ants manually in the simulation. Ants use the LR scheme and each of them has a color. 
+* Press 0 for Free4All mode in which you add your ants manually in the simulation. Ants use the RL scheme and each of them has a color. 
  * Left click to create ants
  * Left click to create rainbow ants (!)
  * Press space bar to start
