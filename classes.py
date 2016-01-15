@@ -13,7 +13,6 @@ class AntGrid(object):
     modenames = ["Free4All", "Langton", "Turk-Propp"]
     total_steps = 0
     frame_skip = 1
-    explored = 0
     nb_ants = 0
     ants = []
     ants_couters = []
@@ -57,7 +56,6 @@ class AntGrid(object):
             for row_no in xrange(self.width):
                 new_row.append("X")
         self.screen.fill((0, 0, 0))
-        self.explored = 0
         self.total_steps = 0
         self.frame_skip = 1
         self.nb_ants = 0
@@ -69,7 +67,6 @@ class AntGrid(object):
     # Increments the color of a pixel
     def incrementcolor(self, x, y):
         if self.rows[y][x] == "X":
-            self.explored += 1
             self.rows[y][x] = 0
 
         self.rows[y][x] = (self.rows[y][x] + 1)  % len(self.antmode)
@@ -80,7 +77,6 @@ class AntGrid(object):
         if self.rows[y][x] == "X":
             self.rows[y][x] = ant_id
             self.screen.set_at((x, y), pygame.Color(self.colors[color_id]))
-            self.explored += 1
             self.ants_couters[ant_id] += 1
         elif self.rows[y][x] == 0:
             self.rows[y][x] = ant_id
@@ -110,12 +106,9 @@ class AntGrid(object):
         txt = font.render("Steps", True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 96)))
         self.screen.blit(txt, (self.width + 2, 96))
-        txt = font.render("Explored", True, (255, 255, 255))
+        txt = font.render("Ants", True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 128)))
         self.screen.blit(txt, (self.width + 2, 128))
-        txt = font.render("Ants", True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 160)))
-        self.screen.blit(txt, (self.width + 2, 160))
 
         if self.mode == 0:
             txt = font.render("SCORES", True, (255, 255, 255))
@@ -126,19 +119,14 @@ class AntGrid(object):
 
     # Update stats data
     def updatestats(self):
-        percent_explored = float(float(self.explored) / (self.height * self.width) * 100)
-
         font = pygame.font.SysFont("monospace", 15)
 
         txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 112)))
         self.screen.blit(txt, (self.width + 2, 112))
-        txt = font.render("%s" %str(round(percent_explored, 2)) + "%   ", True, (255, 255, 255))
+        txt = font.render("%i" %len(self.ants), True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 144)))
         self.screen.blit(txt, (self.width + 2, 144))
-        txt = font.render("%i" %len(self.ants), True, (255, 255, 255))
-        self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 176)))
-        self.screen.blit(txt, (self.width + 2, 176))
 
         if self.mode == 0:
             Score1 = 0
