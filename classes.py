@@ -121,7 +121,7 @@ class AntGrid(object):
     def updatestats(self):
         font = pygame.font.SysFont("monospace", 15)
 
-        txt = font.render("%i" %self.total_steps, True, (255, 255, 255))
+        txt = font.render("%s" %'{:,}'.format(self.total_steps).replace(',', ' '), True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 112)))
         self.screen.blit(txt, (self.width + 2, 112))
         txt = font.render("%i" %len(self.ants), True, (255, 255, 255))
