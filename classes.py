@@ -33,12 +33,12 @@ class AntGrid(object):
             #Langton mode
             self.antmode = "RL"
             self.clear()
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0, 0)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0)
         elif self.mode == 2:
             #Turk-Propp mode
             self.antmode = ""
             self.clear()
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0, 0)
+            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0)
         elif self.mode == 0:
             #Free4All mode
             self.antmode = "RL"
@@ -174,21 +174,17 @@ class ClassicAnt(object):
     
     directions = ((0,-1), (+1,0), (0,+1), (-1,0))
     
-    def __init__(self, grid, ant_id, x, y, color_id, direction):
+    def __init__(self, grid, ant_id, x, y, direction):
         
         self.grid = grid
         self.ant_id = ant_id
-        self.color_id = color_id
         self.x = x
         self.y = y
-        self.color = pygame.Color(self.grid.colors[color_id])
-        self.rgb_color = globalfunctions.hex_to_rgb(self.grid.colors[color_id])
         self.direction = direction
         self.grid.nb_ants += 1
 
         self.grid.ants.append(self)
         self.grid.ants_couters.append(0)
-        #self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
 
         self.starting_params = (x, y, direction, self.grid.total_steps)
         
@@ -196,21 +192,15 @@ class ClassicAnt(object):
 
 
         if self.grid.rows[self.y][self.x] == "X":
-            self.color_id = 1
             if self.grid.antmode[0] == "L":
                 self.direction = (self.direction-1) % 4
             elif self.grid.antmode[0] == "R":
                 self.direction = (self.direction+1) % 4
         else:
-            self.color_id = (self.grid.rows[self.y][self.x] + 1) % len(self.grid.antmode)
             if self.grid.antmode[self.grid.rows[self.y][self.x]] == "L":
                 self.direction = (self.direction-1) % 4
             elif self.grid.antmode[self.grid.rows[self.y][self.x]] == "R":
                 self.direction = (self.direction+1) % 4
-
-        #self.color = pygame.Color(self.grid.colors[self.color_id])
-
-        #self.grid.colorswap(self.x, self.y, self.color_id, self.color_id)
 
         self.grid.incrementcolor(self.x, self.y)
 
