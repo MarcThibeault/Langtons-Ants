@@ -66,16 +66,16 @@ def run():
                     grid.setmode(0)
 
                 if event.key == K_l and grid.mode == 2 and grid.total_steps == 0:
-                    grid.antmode += "L"
+                    grid.antscheme += "L"
                     grid.statslabels()
 
                 if event.key == K_r and grid.mode == 2 and grid.total_steps == 0:
-                    grid.antmode += "R"
+                    grid.antscheme += "R"
                     grid.statslabels()
 
                 #Pause/Start simulation
                 if event.key == K_SPACE:
-                    if len(grid.antmode) > 1:
+                    if len(grid.antscheme) > 1:
                         running = not running
                 
                 #Clear key

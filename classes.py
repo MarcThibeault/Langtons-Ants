@@ -9,7 +9,7 @@ class AntGrid(object):
     
     colors = ["#000000", "#FF0000", "#FF7000", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF"]
     mode = 1
-    antmode = ""
+    antscheme = ""
     modenames = ["Free4All", "Langton", "Turk-Propp"]
     total_steps = 0
     frame_skip = 1
@@ -31,17 +31,17 @@ class AntGrid(object):
 
         if self.mode == 1:
             #Langton mode
-            self.antmode = "RL"
+            self.antscheme = "RL"
             self.clear()
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0)
         elif self.mode == 2:
             #Turk-Propp mode
-            self.antmode = ""
+            self.antscheme = ""
             self.clear()
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0)
         elif self.mode == 0:
             #Free4All mode
-            self.antmode = "RL"
+            self.antscheme = "RL"
             self.clear()
     
     def clear(self):
@@ -69,7 +69,7 @@ class AntGrid(object):
         if self.rows[y][x] == "X":
             self.rows[y][x] = 0
 
-        self.rows[y][x] = (self.rows[y][x] + 1)  % len(self.antmode)
+        self.rows[y][x] = (self.rows[y][x] + 1)  % len(self.antscheme)
         self.screen.set_at((x, y), pygame.Color(self.colors[self.rows[y][x] % len(self.colors)]))
 
     # Swaps grid pixels from black to color or color to black for Free4All ants
@@ -97,7 +97,7 @@ class AntGrid(object):
         txt = font.render("%s" %self.modenames[self.mode], True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 16)))
         self.screen.blit(txt, (self.width + 2, 16))
-        txt = font.render("%s" %self.antmode, True, (255, 255, 255))
+        txt = font.render("%s" %self.antscheme, True, (255, 255, 255))
         self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 32)))
         self.screen.blit(txt, (self.width + 2, 32))
         txt = font.render("Speed", True, (255, 255, 255))
@@ -192,14 +192,14 @@ class ClassicAnt(object):
 
 
         if self.grid.rows[self.y][self.x] == "X":
-            if self.grid.antmode[0] == "L":
+            if self.grid.antscheme[0] == "L":
                 self.direction = (self.direction-1) % 4
-            elif self.grid.antmode[0] == "R":
+            elif self.grid.antscheme[0] == "R":
                 self.direction = (self.direction+1) % 4
         else:
-            if self.grid.antmode[self.grid.rows[self.y][self.x]] == "L":
+            if self.grid.antscheme[self.grid.rows[self.y][self.x]] == "L":
                 self.direction = (self.direction-1) % 4
-            elif self.grid.antmode[self.grid.rows[self.y][self.x]] == "R":
+            elif self.grid.antscheme[self.grid.rows[self.y][self.x]] == "R":
                 self.direction = (self.direction+1) % 4
 
         self.grid.incrementcolor(self.x, self.y)
