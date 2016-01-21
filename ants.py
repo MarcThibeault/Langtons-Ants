@@ -36,12 +36,17 @@ def run():
             
             if event.type == MOUSEBUTTONDOWN:
                 
-                if event.button == 1 and grid.mode == 0:
+                if event.button == 1:
 
                     x, y = event.pos
                     
                     if x < GRID_SIZE[0]:
-                        ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), (1 + len(grid.ants) % (len(grid.colors) - 1)), random.randint(0,3))
+                        if grid.mode == 1:
+                            ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), 0)
+                        elif grid.mode == 2:
+                            ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), 0)
+                        elif grid.mode == 0:
+                            ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), (1 + len(grid.ants) % (len(grid.colors) - 1)), random.randint(0,3))
 
                 elif event.button == 3 and grid.mode == 0:
                     
