@@ -24,7 +24,7 @@ Each mode has a few specific controls as follows.
  * Press + / - to adjust speed
  * Press C to reset the simulation
 
-### 3. Free4All mode
+### 0. Free4All mode
 * Press 0 for Free4All mode in which you add your ants manually in the simulation. Ants use the RL scheme and each of them has a color. 
  * Left click to add a new ant
  * Right click to add a rainbow ant (!)
