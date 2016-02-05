@@ -1,4 +1,4 @@
-import pygame, random, csv, datetime
+import pygame, random, csv, datetime, re
 import Tkinter, tkFileDialog
 from pygame.locals import *
 
@@ -100,6 +100,12 @@ def run():
                     #Turn around to set back focus on main window
                     screen = pygame.display.set_mode((w, h+1), 0, 32)
                     screen = pygame.display.set_mode((w, h), 0, 32)
+
+                    match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
+                    newmode = match.group(1)
+
+                    match = re.search(r"\-([RL]*)\]", csv_path)
+                    newscheme = match.group(1)
 
                     grid.clear()
                     running = False
