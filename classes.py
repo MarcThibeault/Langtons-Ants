@@ -14,6 +14,7 @@ class AntGrid(object):
     total_steps = 0
     frame_skip = 1
     nb_ants = 0
+    rainbow = False
     ants = []
     ants_couters = []
 
@@ -42,6 +43,7 @@ class AntGrid(object):
         elif self.mode == 0:
             #Free4All mode
             self.antscheme = "RL"
+            self.rainbow = False
             self.clear()
     
     def clear(self):
@@ -265,6 +267,7 @@ class RainbowAnt(object):
         self.rgb_color = globalfunctions.hex_to_rgb(self.grid.colors[color_id])
         self.direction = direction
         self.grid.nb_ants += 1
+        self.grid.rainbow = True
 
         self.grid.ants.append(self)
         self.grid.ants_couters.append(0)

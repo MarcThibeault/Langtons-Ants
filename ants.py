@@ -48,7 +48,7 @@ def run():
                         elif grid.mode == 0:
                             ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), (1 + len(grid.ants) % (len(grid.colors) - 1)), random.randint(0,3))
 
-                elif event.button == 3 and grid.mode == 0:
+                elif event.button == 3 and grid.mode == 0 and grid.rainbow == False:
                     
                     x, y = event.pos
                     
