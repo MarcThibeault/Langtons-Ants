@@ -26,25 +26,19 @@ class AntGrid(object):
         self.clear()
 
     #setmode takes care of the starting params for each mode
-    def setmode(self, mode):
+    def setmode(self, mode, scheme):
 
         self.mode = mode
+        self.antscheme = scheme
+        
+        self.clear()
 
-        if self.mode == 1:
-            #Langton mode
-            self.antscheme = "RL"
-            self.clear()
-            ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0)
-        elif self.mode == 2:
-            #Turk-Propp mode
-            self.antscheme = ""
-            self.clear()
+        if self.mode == 1 or self.mode == 2:
+            #Langton mode // Turk-Propp mode
             ant = ClassicAnt(self, len(self.ants) + 1, self.width // 2, self.height // 2, 0)
         elif self.mode == 0:
             #Free4All mode
-            self.antscheme = "RL"
             self.rainbow = False
-            self.clear()
     
     def clear(self):
         

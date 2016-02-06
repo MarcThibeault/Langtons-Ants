@@ -24,8 +24,7 @@ def run():
     grid.ants = []
     grid.ants_couters.append(0)
     running = False
-    grid.mode = 1
-    grid.setmode(grid.mode)
+    grid.setmode(1, "RL")
     
     while True:
         
@@ -65,15 +64,15 @@ def run():
                 #Modes
                 if event.key == K_1:
                     running = False
-                    grid.setmode(1)
+                    grid.setmode(1, "RL")
 
                 if event.key == K_2:
                     running = False
-                    grid.setmode(2)
+                    grid.setmode(2, "")
 
                 if event.key == K_0:
                     running = False
-                    grid.setmode(0)
+                    grid.setmode(0, "RL")
 
                 if event.key == K_l and grid.mode == 2 and grid.total_steps == 0:
                     grid.antscheme += "L"
@@ -90,7 +89,7 @@ def run():
                 
                 #Clear key
                 if event.key == K_c:
-                    grid.setmode(grid.mode)
+                    grid.setmode(grid.mode, grid.antscheme)
                     running = False
 
                 #Load key
@@ -100,14 +99,15 @@ def run():
                     #Turn around to set back focus on main window
                     screen = pygame.display.set_mode((w, h+1), 0, 32)
                     screen = pygame.display.set_mode((w, h), 0, 32)
-
+                    
+                    #Retrieving mode and scheme
                     match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
                     newmode = match.group(1)
 
                     match = re.search(r"\-([RL]*)\]", csv_path)
                     newscheme = match.group(1)
 
-                    grid.clear()
+                    grid.setmode(newmode, newscheme)
                     running = False
 
                     with open(csv_path, 'rb') as csvfile:
