@@ -75,21 +75,21 @@ def run():
                     grid.setmode(0, "RL")
 
                 if event.key == K_l and grid.mode == 2 and grid.total_steps == 0:
-                    grid.antscheme += "L"
+                    grid.scheme += "L"
                     grid.statslabels()
 
                 if event.key == K_r and grid.mode == 2 and grid.total_steps == 0:
-                    grid.antscheme += "R"
+                    grid.scheme += "R"
                     grid.statslabels()
 
                 #Pause/Start simulation
                 if event.key == K_SPACE:
-                    if len(grid.antscheme) > 1:
+                    if len(grid.scheme) > 1:
                         running = not running
                 
                 #Clear key
                 if event.key == K_c:
-                    grid.setmode(grid.mode, grid.antscheme)
+                    grid.setmode(grid.mode, grid.scheme)
                     running = False
 
                 #Load key
@@ -103,7 +103,6 @@ def run():
                     #Retrieving mode and scheme
                     match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
                     newmode = match.group(1)
-
                     match = re.search(r"\-([RL]*)\]", csv_path)
                     newscheme = match.group(1)
 
@@ -121,7 +120,7 @@ def run():
                 #Save key
                 if event.key == K_s  and grid.mode == 0:
                     now = datetime.datetime.now()
-                    with open(now.strftime("save/(" + str(len(grid.ants)) + ")[" + str(grid.mode) + "-" + grid.antscheme + "] " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
+                    with open(now.strftime("save/(" + str(len(grid.ants)) + ")[" + str(grid.mode) + "-" + grid.scheme + "] " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
                         csv_writer = csv.writer(csvfile)
                         for ant in grid.ants:
                             csv_writer.writerow(ant.starting_params)
