@@ -102,7 +102,7 @@ def run():
                     
                     #Retrieving mode and scheme
                     match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
-                    newmode = match.group(1)
+                    newmode = int(match.group(1))
                     match = re.search(r"\-([RL]*)\]", csv_path)
                     newscheme = match.group(1)
 
