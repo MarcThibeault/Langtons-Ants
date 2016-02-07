@@ -110,15 +110,22 @@ def run():
                     running = False
 
                     with open(csv_path, 'rb') as csvfile:
-                        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
-                        loadlist = list(csv_reader)
-                        loadlist.sort(key=lambda x: x[3])
-                        for row in loadlist:
-                        	if row[3] == '0':
-								x = int(row[0])
-								y = int(row[1])
-								direction = int(row[2])
-								ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
+					csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+					grid.loadlist = list(csv_reader)
+					grid.loadlist.sort(key=lambda x: x[3])
+
+					for row in grid.loadlist:
+						#Loading only ants that are due to appear at step 0
+						if row[3] == '0':
+							x = int(row[0])
+							y = int(row[1])
+							direction = int(row[2])
+							ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
+
+					#Removing previously loaded ants from the load list
+					for row in grid.loadlist[:]:
+						if row[3] == '0':
+							grid.loadlist.remove(row)
 
                 #Save key
                 if event.key == K_s  and grid.mode == 0:

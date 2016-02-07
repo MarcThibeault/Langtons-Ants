@@ -17,6 +17,7 @@ class AntGrid(object):
     rainbow = False
     ants = []
     ants_couters = []
+    loadlist = []
 
     def __init__(self, screen, width, height):
         
