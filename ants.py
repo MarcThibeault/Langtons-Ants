@@ -111,11 +111,14 @@ def run():
 
                     with open(csv_path, 'rb') as csvfile:
                         csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
-                        for row in csv_reader:
-                            x = int(row[0])
-                            y = int(row[1])
-                            direction = int(row[2])
-                            ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
+                        loadlist = list(csv_reader)
+                        loadlist.sort(key=lambda x: x[3])
+                        for row in loadlist:
+                        	if row[3] == '0':
+								x = int(row[0])
+								y = int(row[1])
+								direction = int(row[2])
+								ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
 
                 #Save key
                 if event.key == K_s  and grid.mode == 0:
