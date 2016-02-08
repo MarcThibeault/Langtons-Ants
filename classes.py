@@ -53,6 +53,7 @@ class AntGrid(object):
             for row_no in xrange(self.width):
                 new_row.append("X")
         self.screen.fill((0, 0, 0))
+        del self.loadlist[:]
         self.total_steps = 0
         self.frame_skip = 1
         self.nb_ants = 0

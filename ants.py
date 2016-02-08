@@ -112,7 +112,7 @@ def run():
                     with open(csv_path, 'rb') as csvfile:
 					csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
 					grid.loadlist = list(csv_reader)
-					grid.loadlist.sort(key=lambda x: x[3])
+					grid.loadlist.sort(key=lambda x: int(x[3]))
 
 					for row in grid.loadlist:
 						#Loading only ants that are due to appear at step 0
@@ -126,7 +126,7 @@ def run():
 					for row in grid.loadlist[:]:
 						if row[3] == '0':
 							grid.loadlist.remove(row)
-
+                
                 #Save key
                 if event.key == K_s  and grid.mode == 0:
                     now = datetime.datetime.now()
@@ -146,9 +146,19 @@ def run():
     
         if running:
             for step_no in xrange(grid.frame_skip):
+
+            	if len(grid.loadlist) > 0:
+            		if int(grid.loadlist[0][3]) == grid.total_steps:
+						x = int(grid.loadlist[0][0])
+						y = int(grid.loadlist[0][1])
+						direction = int(grid.loadlist[0][2])
+						ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
+						del grid.loadlist[0]
+
                 for ant in grid.ants:
                     ant.move()
-            grid.total_steps += grid.frame_skip
+
+            	grid.total_steps += 1
 
         for ant in grid.ants:
             ant.render(screen)
