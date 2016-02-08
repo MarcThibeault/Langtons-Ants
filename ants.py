@@ -97,7 +97,7 @@ def run():
 					running = False
 
 				#Load key
-				if event.key == K_d and grid.mode == 0:
+				if event.key == K_d:
 					Tkinter.Tk().withdraw() # Close the root window
 					csv_path = tkFileDialog.askopenfilename()
 					#Turn around to set back focus on main window
@@ -111,6 +111,7 @@ def run():
 					newscheme = match.group(1)
 
 					grid.setmode(newmode, newscheme)
+					grid.clear()
 					running = False
 
 					with open(csv_path, 'rb') as csvfile:
@@ -124,7 +125,15 @@ def run():
 							x = int(row[0])
 							y = int(row[1])
 							direction = int(row[2])
-							ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
+							if grid.mode == 1:
+								#Langton Mode
+								ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), direction)
+							elif grid.mode == 2:
+								#Turk-Propp Mode
+								ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), direction)
+							elif grid.mode == 0:
+								#Free4All Mode
+								ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
 
 					#Removing previously loaded ants from the load list
 					for row in grid.loadlist[:]:
@@ -132,7 +141,7 @@ def run():
 							grid.loadlist.remove(row)
 				
 				#Save key
-				if event.key == K_s  and grid.mode == 0:
+				if event.key == K_s:
 					now = datetime.datetime.now()
 					with open(now.strftime("save/(" + str(len(grid.ants)) + ")[" + str(grid.mode) + "-" + grid.scheme + "] " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
 						csv_writer = csv.writer(csvfile)
@@ -144,7 +153,7 @@ def run():
 					grid.frame_skip = grid.frame_skip / 4
 					grid.updatespeed()
 
-				if (event.key == K_KP_PLUS or event.key == K_EQUALS) and grid.frame_skip<262144:
+				if (event.key == K_KP_PLUS or event.key == K_PLUS or event.key == K_EQUALS) and grid.frame_skip<262144:
 					grid.frame_skip = grid.frame_skip * 4
 					grid.updatespeed()
 	
@@ -156,7 +165,15 @@ def run():
 						x = int(grid.loadlist[0][0])
 						y = int(grid.loadlist[0][1])
 						direction = int(grid.loadlist[0][2])
-						ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
+						if grid.mode == 1:
+							#Langton Mode
+							ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), direction)
+						elif grid.mode == 2:
+							#Turk-Propp Mode
+							ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), direction)
+						elif grid.mode == 0:
+							#Free4All Mode
+							ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
 						del grid.loadlist[0]
 
 				for ant in grid.ants:
