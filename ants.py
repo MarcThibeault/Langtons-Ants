@@ -82,6 +82,10 @@ def run():
                     grid.scheme += "R"
                     grid.statslabels()
 
+                if event.key == K_BACKSPACE and grid.mode == 2 and grid.total_steps == 0:
+                    grid.scheme = grid.scheme[:-1]
+                    grid.statslabels()
+
                 #Pause/Start simulation
                 if event.key == K_SPACE:
                     if len(grid.scheme) > 1:
