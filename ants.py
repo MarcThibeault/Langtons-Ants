@@ -140,11 +140,11 @@ def run():
 							csv_writer.writerow(ant.starting_params)
 
 				# Speed setting
-				if event.key == K_KP_MINUS and grid.frame_skip>1:
+				if (event.key == K_KP_MINUS or event.key == K_MINUS) and grid.frame_skip>1:
 					grid.frame_skip = grid.frame_skip / 4
 					grid.updatespeed()
 
-				if event.key == K_KP_PLUS and grid.frame_skip<262144:
+				if (event.key == K_KP_PLUS or event.key == K_EQUALS) and grid.frame_skip<262144:
 					grid.frame_skip = grid.frame_skip * 4
 					grid.updatespeed()
 	
