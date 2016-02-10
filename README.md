@@ -29,7 +29,7 @@ Modes and controls are explained below, as well as how to save and load simulati
 * Press space bar to start / pause the simulation
 * Left click the simulation to add new ants
 * Press + / - to adjust speed
-* Press S to save your starting ant positions to a CSV file (See naming convetion below)
+* Press S to save the simulation to a CSV file (See naming convetion below)
 * Press D to load a previously saved CSV file
 * Press C to clear the simulation
 
