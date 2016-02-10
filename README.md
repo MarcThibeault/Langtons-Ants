@@ -2,9 +2,12 @@
 By Marc Thibeault & Josaphat Comeau
 
 Made using Python + pygame. 
+###Requirements
+* Python 2.7
+* Pygame 1.9
+
 ### How to run
 * Run ants.py with Python from command prompt
-* Requires Python 2.7 + pygame 1.9
 
 Modes and controls are explained below, as well as how to save and load simulations.
 ##Modes
