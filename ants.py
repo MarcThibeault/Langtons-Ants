@@ -143,7 +143,7 @@ def run():
 				#Save key
 				if event.key == K_s:
 					now = datetime.datetime.now()
-					with open(now.strftime("save/(" + str(len(grid.ants)) + ")[" + str(grid.mode) + "-" + grid.scheme + "] " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
+					with open(now.strftime("save/[" + str(grid.mode) + "-" + grid.scheme + "](" + str(len(grid.ants)) + ") " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
 						csv_writer = csv.writer(csvfile)
 						for ant in grid.ants:
 							csv_writer.writerow(ant.starting_params)
