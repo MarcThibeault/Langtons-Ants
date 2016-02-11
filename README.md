@@ -1,4 +1,4 @@
-# Langtons-Ants on Steriods
+# Langtons-Ants Simulator
 By Marc Thibeault & Josaphat Comeau
 
 Made in Python + pygame. 
