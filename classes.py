@@ -95,9 +95,13 @@ class AntGrid(object):
 		txt = font.render("%s" %self.modenames[self.mode], True, (255, 255, 255))
 		self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 16)))
 		self.screen.blit(txt, (self.width + 2, 16))
+
+		font = pygame.font.SysFont("monospace", 12)
 		txt = font.render("%s                " %self.scheme, True, (255, 255, 255))
 		self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 32)))
 		self.screen.blit(txt, (self.width + 2, 32))
+
+		font = pygame.font.SysFont("monospace", 15)
 		txt = font.render("Speed", True, (255, 255, 255))
 		self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 64)))
 		self.screen.blit(txt, (self.width + 2, 64))

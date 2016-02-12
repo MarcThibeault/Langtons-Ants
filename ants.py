@@ -8,7 +8,7 @@ def run():
 
 	pygame.init()
 
-	STATS_WIDTH = 150
+	STATS_WIDTH = 120
 	GRID_SIZE = (1280 - STATS_WIDTH, 800)
 
 	w = GRID_SIZE[0] + STATS_WIDTH
