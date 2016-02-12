@@ -5,6 +5,8 @@ import globalfunctions
 
 
 #All classes
+
+#The grid in which the simulation takes place
 class AntGrid(object):
 	
 	colors = ["#000000", "#FF0000", "#444444", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF"]
@@ -27,6 +29,7 @@ class AntGrid(object):
 		self.clear()
 
 	#setmode takes care of the starting params for each mode
+	#It also creates the starting ant for non-Free4All modes
 	def setmode(self, mode, scheme):
 
 		self.mode = mode
@@ -41,6 +44,7 @@ class AntGrid(object):
 			#Free4All mode
 			self.rainbow = False
 	
+	# Reset the simulation
 	def clear(self):
 		
 		del self.ants[:]
@@ -63,6 +67,7 @@ class AntGrid(object):
 		self.updatestats()
 	
 	# Increments the color of a pixel
+	# For Classic ants
 	def incrementcolor(self, x, y):
 		if self.rows[y][x] == "X":
 			self.rows[y][x] = 0
@@ -70,7 +75,8 @@ class AntGrid(object):
 		self.rows[y][x] = (self.rows[y][x] + 1)  % len(self.scheme)
 		self.screen.set_at((x, y), pygame.Color(self.colors[self.rows[y][x] % len(self.colors)]))
 
-	# Swaps grid pixels from black to color or color to black for Free4All ants
+	# Swaps grid pixels from black to color or from color to black
+	# For Free4All ants
 	def colorswap(self, x, y, ant_id, color_id):
 		if self.rows[y][x] == "X":
 			self.rows[y][x] = ant_id
@@ -171,7 +177,7 @@ class AntGrid(object):
 	def get(self, x, y):
 		return self.rows[y][x]
   
-#Classic ant moving and evolving using a "LR" mode
+#Classic ant moving and evolving according to the AntGrid's moving scheme
 class ClassicAnt(object):
 	
 	directions = ((0,-1), (+1,0), (0,+1), (-1,0))
@@ -252,6 +258,7 @@ class Free4AllAnt(object):
 		
 		grid_w, grid_h = (1,1)
 
+#Free4All ant that changes color every 1000 steps
 class RainbowAnt(object):
 	
 	directions = ((0,-1), (+1,0), (0,+1), (-1,0))
