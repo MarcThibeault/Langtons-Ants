@@ -268,6 +268,8 @@ class RainbowAnt(object):
 		self.grid.ants.append(self)
 		self.grid.ants_couters.append(0)
 		self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
+
+		self.starting_params = (x, y, direction, self.grid.total_steps)
 		
 	def move(self):
 
