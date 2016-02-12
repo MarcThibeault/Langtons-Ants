@@ -3,7 +3,6 @@ import Tkinter, tkFileDialog
 from pygame.locals import *
 import globalfunctions
 
-
 #All classes
 
 #The grid in which the simulation takes place
@@ -68,6 +67,7 @@ class AntGrid(object):
 
 	#Saving the simulation's ants and params in a CSV file
 	def save(self):
+
 		now = datetime.datetime.now()
 		with open(now.strftime("save/[" + str(self.mode) + "-" + self.scheme + "](" + str(len(self.ants)) + ") " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
 			csv_writer = csv.writer(csvfile)
@@ -76,6 +76,7 @@ class AntGrid(object):
 	
 	#Loading a simulation from a CSV file
 	def load(self, csv_path):
+
 		#Retrieving mode and scheme
 		match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
 		newmode = int(match.group(1))
@@ -116,6 +117,7 @@ class AntGrid(object):
 	# Increments the color of a pixel
 	# For Classic ants
 	def incrementcolor(self, x, y):
+
 		if self.rows[y][x] == "X":
 			self.rows[y][x] = 0
 
@@ -125,6 +127,7 @@ class AntGrid(object):
 	# Swaps grid pixels from black to color or from color to black
 	# For Free4All ants
 	def colorswap(self, x, y, ant_id, color_id):
+
 		if self.rows[y][x] == "X":
 			self.rows[y][x] = ant_id
 			self.screen.set_at((x, y), pygame.Color(self.colors[color_id]))
@@ -140,6 +143,7 @@ class AntGrid(object):
 
 	# Stats area static labels and vertical line
 	def statslabels(self):
+
 		font = pygame.font.SysFont("monospace", 15)
 
 		txt = font.render("MODE", True, (255, 255, 255))
@@ -174,6 +178,7 @@ class AntGrid(object):
 
 	# Update stats data
 	def updatestats(self):
+
 		font = pygame.font.SysFont("monospace", 15)
 
 		txt = font.render("%s" %'{:,}'.format(self.total_steps).replace(',', ' '), True, (255, 255, 255))
@@ -215,6 +220,7 @@ class AntGrid(object):
 
 	#Update speed in stats, only when speed changes
 	def updatespeed(self):
+
 		font = pygame.font.SysFont("monospace", 15)
 
 		txt = font.render("%ix  " %self.frame_skip, True, (255, 255, 255))
@@ -222,6 +228,7 @@ class AntGrid(object):
 		self.screen.blit(txt, (self.width + 2, 80))
 	
 	def get(self, x, y):
+		
 		return self.rows[y][x]
   
 #Classic ant moving and evolving according to the AntGrid's moving scheme
@@ -244,7 +251,6 @@ class ClassicAnt(object):
 		self.starting_params = (x, y, direction, self.grid.total_steps)
 		
 	def move(self):
-
 
 		if self.grid.rows[self.y][self.x] == "X":
 			if self.grid.scheme[0] == "L":
