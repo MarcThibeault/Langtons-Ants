@@ -1,4 +1,4 @@
-import pygame, random, csv, datetime
+import pygame, random, csv, datetime, re
 import Tkinter, tkFileDialog
 from pygame.locals import *
 import globalfunctions
@@ -74,6 +74,45 @@ class AntGrid(object):
 			for ant in self.ants:
 				csv_writer.writerow(ant.starting_params)
 	
+	#Loading a simulation from a CSV file
+	def load(self, csv_path):
+		#Retrieving mode and scheme
+		match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
+		newmode = int(match.group(1))
+		match = re.search(r"\-([RL]*)\]", csv_path)
+		newscheme = match.group(1)
+
+		self.setmode(newmode, newscheme)
+		self.clear()
+		running = False
+
+		with open(csv_path, 'rb') as csvfile:
+			csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+			self.loadlist = list(csv_reader)
+			self.loadlist.sort(key=lambda x: int(x[3]))
+
+		for row in self.loadlist:
+			#Loading only ants that are due to appear at step 0
+			if row[3] == '0':
+				x = int(row[0])
+				y = int(row[1])
+				direction = int(row[2])
+				if self.mode == 1:
+					#Langton Mode
+					ant = ClassicAnt(self, len(self.ants) + 1, int(x), int(y), direction)
+				elif self.mode == 2:
+					#Turk-Propp Mode
+					ant = ClassicAnt(self, len(self.ants) + 1, int(x), int(y), direction)
+				elif self.mode == 0:
+					#Free4All Mode
+					ant = Free4AllAnt(self, len(self.ants) + 1, int(x), int(y), 1 + len(self.ants) % (len(self.colors) - 1), direction)
+
+		#Removing previously loaded ants from the load list
+		for row in self.loadlist[:]:
+			if row[3] == '0':
+				self.loadlist.remove(row)
+
+
 	# Increments the color of a pixel
 	# For Classic ants
 	def incrementcolor(self, x, y):

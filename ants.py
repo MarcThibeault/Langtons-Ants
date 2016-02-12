@@ -74,6 +74,7 @@ def run():
 					running = False
 					grid.setmode(0, "RL")
 
+				#Moving scheme
 				if event.key == K_l and grid.mode == 2 and grid.total_steps == 0:
 					grid.scheme += "L"
 					grid.statslabels()
@@ -104,41 +105,7 @@ def run():
 					screen = pygame.display.set_mode((w, h+1), 0, 32)
 					screen = pygame.display.set_mode((w, h), 0, 32)
 					
-					#Retrieving mode and scheme
-					match = re.search(r"^.*?\[[^\d]*(\d+)[^\d]*\-.*$", csv_path)
-					newmode = int(match.group(1))
-					match = re.search(r"\-([RL]*)\]", csv_path)
-					newscheme = match.group(1)
-
-					grid.setmode(newmode, newscheme)
-					grid.clear()
-					running = False
-
-					with open(csv_path, 'rb') as csvfile:
-						csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
-						grid.loadlist = list(csv_reader)
-						grid.loadlist.sort(key=lambda x: int(x[3]))
-
-					for row in grid.loadlist:
-						#Loading only ants that are due to appear at step 0
-						if row[3] == '0':
-							x = int(row[0])
-							y = int(row[1])
-							direction = int(row[2])
-							if grid.mode == 1:
-								#Langton Mode
-								ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), direction)
-							elif grid.mode == 2:
-								#Turk-Propp Mode
-								ant = classes.ClassicAnt(grid, len(grid.ants) + 1, int(x), int(y), direction)
-							elif grid.mode == 0:
-								#Free4All Mode
-								ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
-
-					#Removing previously loaded ants from the load list
-					for row in grid.loadlist[:]:
-						if row[3] == '0':
-							grid.loadlist.remove(row)
+					grid.load(csv_path)
 				
 				#Save key
 				if event.key == K_s:
