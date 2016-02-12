@@ -33,9 +33,10 @@ def run():
 			if event.type == QUIT:
 				return
 			
+			#Mouse events
 			if event.type == MOUSEBUTTONDOWN:
 				
-				#Left click
+				#Left click (Add new ant)
 				if event.button == 1:
 
 					x, y = event.pos
@@ -59,6 +60,7 @@ def run():
 					if x < GRID_SIZE[0]:
 						ant = classes.RainbowAnt(grid, len(grid.ants) + 1, int(x), int(y), 1, random.randint(0,3))
 
+			#Keyboard events
 			if event.type == KEYDOWN:
 
 				#Modes
@@ -123,6 +125,7 @@ def run():
 		if running:
 			for step_no in xrange(grid.frame_skip):
 
+				#Check if there are ants to be loaded later in the simulation
 				if len(grid.loadlist) > 0:
 					if int(grid.loadlist[0][3]) == grid.total_steps:
 						x = int(grid.loadlist[0][0])
@@ -139,6 +142,7 @@ def run():
 							ant = classes.Free4AllAnt(grid, len(grid.ants) + 1, int(x), int(y), 1 + len(grid.ants) % (len(grid.colors) - 1), direction)
 						del grid.loadlist[0]
 
+				#Updating each ant's position
 				for ant in grid.ants:
 					ant.move()
 
