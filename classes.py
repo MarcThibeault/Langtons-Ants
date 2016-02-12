@@ -65,6 +65,14 @@ class AntGrid(object):
 		self.statslabels()
 		self.updatespeed()
 		self.updatestats()
+
+	#Saving the simulation's ants and params in a CSV file
+	def save(self):
+		now = datetime.datetime.now()
+		with open(now.strftime("save/[" + str(self.mode) + "-" + self.scheme + "](" + str(len(self.ants)) + ") " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
+			csv_writer = csv.writer(csvfile)
+			for ant in self.ants:
+				csv_writer.writerow(ant.starting_params)
 	
 	# Increments the color of a pixel
 	# For Classic ants

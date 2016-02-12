@@ -142,11 +142,7 @@ def run():
 				
 				#Save key
 				if event.key == K_s:
-					now = datetime.datetime.now()
-					with open(now.strftime("save/[" + str(grid.mode) + "-" + grid.scheme + "](" + str(len(grid.ants)) + ") " "%Y-%m-%d %H.%M.%S") + '.csv', 'wb') as csvfile:
-						csv_writer = csv.writer(csvfile)
-						for ant in grid.ants:
-							csv_writer.writerow(ant.starting_params)
+					grid.save()
 
 				# Speed setting
 				if (event.key == K_KP_MINUS or event.key == K_MINUS) and grid.frame_skip>1:
