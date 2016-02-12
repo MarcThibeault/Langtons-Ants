@@ -148,9 +148,6 @@ def run():
 
 				grid.total_steps += 1
 
-		for ant in grid.ants:
-			ant.render(screen)
-
 		grid.updatestats()
 
 		pygame.display.update()

@@ -262,10 +262,6 @@ class ClassicAnt(object):
 		self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
 		self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
 
-	def render(self, surface):
-		
-		grid_w, grid_h = (1,1)
-
 #Ant considering only 2 colors: Black or not black
 class Free4AllAnt(object):
 	
@@ -300,10 +296,6 @@ class Free4AllAnt(object):
 			self.direction = (self.direction-1) % 4
 		else:
 			self.direction = (self.direction+1) % 4
-
-	def render(self, surface):
-		
-		grid_w, grid_h = (1,1)
 
 #Free4All ant that changes color every 1000 steps
 class RainbowAnt(object):
@@ -344,8 +336,3 @@ class RainbowAnt(object):
 			self.direction = (self.direction-1) % 4
 		else:
 			self.direction = (self.direction+1) % 4
-		
-		
-	def render(self, surface):
-		
-		grid_w, grid_h = (1,1)
