@@ -60,6 +60,10 @@ def run():
 			#Keyboard events
 			if event.type == KEYDOWN:
 
+				#Quit
+				if event.key == K_ESCAPE:
+					return
+
 				#Modes
 				if event.key == K_1:
 					running = False
