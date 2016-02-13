@@ -32,6 +32,7 @@ Modes and controls are explained below, as well as how to save and load simulati
 * Press S to save the simulation to a CSV file (See naming convetion below)
 * Press D to load a previously saved CSV file
 * Press C to clear the simulation
+* Press Escape to quit the simulator
 
 ## Saving and Loading Simulations
 At any time you can save a simulation by pressing the S key or load a saved simulation pressing the D key. Saved simulations are located in the /save folder. Here's the naming convention for the saves:
