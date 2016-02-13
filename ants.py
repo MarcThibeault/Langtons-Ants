@@ -15,9 +15,6 @@ def run():
 	h = GRID_SIZE[1]
 	screen = pygame.display.set_mode((w, h), 0, 32)
 	
-	default_font = pygame.font.get_default_font()
-	font = pygame.font.SysFont(default_font, 22)
-	
 	pygame.display.set_caption("Langton's Ants Simulator")
 
 	grid = classes.AntGrid(screen, *GRID_SIZE)
