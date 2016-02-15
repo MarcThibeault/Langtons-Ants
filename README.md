@@ -11,7 +11,8 @@ Simulations can be saved and loaded for infinite tests and replays.
 
 It's undergoing constant development, so new exciting and interesting features are being implemented every now and then.
 
-[Click here for screenshots](http://www.marcthibeault.com/p/langtons-ants-simulator.html "Langton's Ants Simulator on Marc Thibeault's Homepage")
+###Screenshots
+[Click here for screenshots](https://www.dropbox.com/sh/hlra0uyvo84o3kz/AADYIAuVAB63eimGCZBkFEKsa?dl=0 "Langton's Ants Simulator Screenshots | Dropbox")
 
 ###Requirements
 * Python 2.7
