@@ -1,7 +1,17 @@
 # Langtons-Ants Simulator
 By Marc Thibeault & Josaphat Comeau
 
-Made in Python + pygame. 
+Looking for the best Lanton's Ants Simulator out there? You just found it.
+
+Made with Python and Pygame, this simulator is basically the Langton Ant fan's wet dream.
+
+You can run classic Langton simulations using the RL movement scheme, or more advanced ones using custom moving schemes as imagined by Greg Turk and Jim Propp. You can also run a Free for All simulation in which infinite chaos is very likely to ensue.
+
+Simulations can be saved and loaded for infinite tests and replays.
+
+It's undergoing constant development, so new exciting and interesting features are being implemented every now and then.
+
+[Click here for screenshots](http://www.marcthibeault.com/p/langtons-ants-simulator.html "Langton's Ants Simulator on Marc Thibeault's Homepage")
 
 ###Requirements
 * Python 2.7
