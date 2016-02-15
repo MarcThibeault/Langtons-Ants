@@ -13,8 +13,10 @@ def run():
 
 	w = GRID_SIZE[0] + STATS_WIDTH
 	h = GRID_SIZE[1]
+
 	screen = pygame.display.set_mode((w, h), 0, 32)
-	
+	FULLSCREEN = False
+
 	pygame.display.set_caption("Langton's Ants Simulator")
 
 	grid = classes.AntGrid(screen, *GRID_SIZE)
@@ -63,6 +65,35 @@ def run():
 				#Quit
 				if event.key == K_ESCAPE:
 					return
+				
+				#Toggle Fullscreen
+				if event.key == K_F11:
+
+					if FULLSCREEN:
+						GRID_SIZE = (1280 - STATS_WIDTH, 800)
+
+						w = GRID_SIZE[0] + STATS_WIDTH
+						h = GRID_SIZE[1]
+
+						screen = pygame.display.set_mode((w, h), 0, 32)
+					else:
+						root = Tkinter.Tk()
+						screen_width = root.winfo_screenwidth()
+						screen_height = root.winfo_screenheight()
+
+						GRID_SIZE = (screen_width - STATS_WIDTH, screen_height)
+
+						w = GRID_SIZE[0] + STATS_WIDTH
+						h = GRID_SIZE[1]
+
+						screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN)
+					
+					grid = classes.AntGrid(screen, *GRID_SIZE)
+
+					grid.setmode(1, "RL")
+
+					FULLSCREEN = not FULLSCREEN
+					running = False
 
 				#Modes
 				if event.key == K_1:
@@ -102,11 +133,20 @@ def run():
 
 				#Load key
 				if event.key == K_d:
+					running = False
+
+					#Disable fullscreen for open file dialog
+					screen = pygame.display.set_mode((w, h), 0, 32)
+
 					Tkinter.Tk().withdraw() # Close the root window
 					csv_path = tkFileDialog.askopenfilename()
-					#Turn around to set back focus on main window
-					screen = pygame.display.set_mode((w, h+1), 0, 32)
-					screen = pygame.display.set_mode((w, h), 0, 32)
+
+					#Get back to fullscreen, or reset window size to regain focus
+					if FULLSCREEN:
+						screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN)
+					else:
+						screen = pygame.display.set_mode((w, h+1), 0, 32)
+						screen = pygame.display.set_mode((w, h), 0, 32)
 					
 					grid.load(csv_path)
 				

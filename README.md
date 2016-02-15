@@ -32,6 +32,7 @@ Modes and controls are explained below, as well as how to save and load simulati
 * Press S to save the simulation to a CSV file (See naming convetion below)
 * Press D to load a previously saved CSV file
 * Press C to clear the simulation
+* Press F11 to toggle fullscreen/windowed mode
 * Press Escape to quit the simulator
 
 ## Saving and Loading Simulations
