@@ -15,8 +15,8 @@ It's undergoing constant development, so new exciting and interesting features a
 [Click here for screenshots](https://www.dropbox.com/sh/hlra0uyvo84o3kz/AADYIAuVAB63eimGCZBkFEKsa?dl=0 "Langton's Ants Simulator Screenshots | Dropbox")
 
 ###Requirements
-* Python 2.7
-* Pygame 1.9
+* Install [Python 2.7](https://www.python.org/downloads/)
+* Install [Pygame 1.9](http://pygame.org/download.shtml)
 
 ### How to run
 * Run ants.py with Python from command prompt
