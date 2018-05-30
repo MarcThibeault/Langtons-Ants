@@ -1,13 +1,14 @@
 import pygame, random, csv, datetime, re
-import Tkinter, tkFileDialog
+import tkinter
 from pygame.locals import *
+from tkinter import filedialog
 import globalfunctions
 
 #All classes
 
 #The grid in which the simulation takes place
 class AntGrid(object):
-	
+
 	colors = ["#000000", "#FF0000", "#444444", "#FFFF00", "#00FF00", "#00FFFF",  "#0000FF", "#9900FF"]
 	mode = 1
 	scheme = ""
@@ -21,7 +22,7 @@ class AntGrid(object):
 	loadlist = []
 
 	def __init__(self, screen, width, height):
-		
+
 		self.screen = screen
 		self.width = width
 		self.height = height
@@ -42,18 +43,18 @@ class AntGrid(object):
 		elif self.mode == 0:
 			#Free4All mode
 			self.rainbow = False
-	
+
 	# Reset the simulation
 	def clear(self):
-		
+
 		del self.ants[:]
 		self.ants_couters = []
 		self.ants_couters.append(0)
 		self.rows = []
-		for col_no in xrange(self.height):
+		for col_no in range(self.height):
 			new_row = []
 			self.rows.append(new_row)
-			for row_no in xrange(self.width):
+			for row_no in range(self.width):
 				new_row.append("X")
 		self.screen.fill((0, 0, 0))
 		del self.loadlist[:]
@@ -73,7 +74,7 @@ class AntGrid(object):
 			csv_writer = csv.writer(csvfile)
 			for ant in self.ants:
 				csv_writer.writerow(ant.starting_params)
-	
+
 	#Loading a simulation from a CSV file
 	def load(self, csv_path):
 
@@ -226,18 +227,18 @@ class AntGrid(object):
 		txt = font.render("%ix  " %self.frame_skip, True, (255, 255, 255))
 		self.screen.fill((0,0,0), rect=txt.get_rect(topleft=(self.width + 2, 80)))
 		self.screen.blit(txt, (self.width + 2, 80))
-	
+
 	def get(self, x, y):
-		
+
 		return self.rows[y][x]
-  
+
 #Classic ant moving and evolving according to the AntGrid's moving scheme
 class ClassicAnt(object):
-	
+
 	directions = ((0,-1), (+1,0), (0,+1), (-1,0))
-	
+
 	def __init__(self, grid, ant_id, x, y, direction):
-		
+
 		self.grid = grid
 		self.ant_id = ant_id
 		self.x = x
@@ -249,7 +250,7 @@ class ClassicAnt(object):
 		self.grid.ants_couters.append(0)
 
 		self.starting_params = (x, y, direction, self.grid.total_steps)
-		
+
 	def move(self):
 
 		if self.grid.rows[self.y][self.x] == "X":
@@ -270,11 +271,11 @@ class ClassicAnt(object):
 
 #Ant considering only 2 colors: Black or not black
 class Free4AllAnt(object):
-	
+
 	directions = ((0,-1), (+1,0), (0,+1), (-1,0))
-	
+
 	def __init__(self, grid, ant_id, x, y, color_id, direction):
-		
+
 		self.grid = grid
 		self.ant_id = ant_id
 		self.color_id = color_id
@@ -290,14 +291,14 @@ class Free4AllAnt(object):
 		self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
 
 		self.starting_params = (x, y, direction, self.grid.total_steps)
-		
+
 	def move(self):
-				
+
 		self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
-				
+
 		self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
 		self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
-						
+
 		if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
 			self.direction = (self.direction-1) % 4
 		else:
@@ -305,11 +306,11 @@ class Free4AllAnt(object):
 
 #Free4All ant that changes color every 1000 steps
 class RainbowAnt(object):
-	
+
 	directions = ((0,-1), (+1,0), (0,+1), (-1,0))
-	
+
 	def __init__(self, grid, ant_id, x, y, color_id, direction):
-		
+
 		self.grid = grid
 		self.ant_id = ant_id
 		self.color_id = color_id
@@ -326,7 +327,7 @@ class RainbowAnt(object):
 		self.grid.colorswap(self.x, self.y, self.ant_id, self.color_id)
 
 		self.starting_params = (x, y, direction, self.grid.total_steps)
-		
+
 	def move(self):
 
 		new_color_id = 1 + self.grid.total_steps / 1000 % (len(self.grid.colors) - 1)
@@ -334,10 +335,10 @@ class RainbowAnt(object):
 		self.color = pygame.Color(new_color)
 		self.rgb_color = globalfunctions.hex_to_rgb(new_color)
 		self.grid.colorswap(self.x, self.y, self.ant_id, new_color_id)
-		
+
 		self.x = ( self.x + self.directions[self.direction][0] ) % self.grid.width
 		self.y = ( self.y + self.directions[self.direction][1] ) % self.grid.height
-		
+
 		if self.grid.get(self.x, self.y) == "X" or self.grid.get(self.x, self.y) == 0:
 			self.direction = (self.direction-1) % 4
 		else:

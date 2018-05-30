@@ -1,9 +1,10 @@
 import pygame, random, csv, datetime, re
-import Tkinter, tkFileDialog
+import tkinter
+from tkinter import filedialog
 from pygame.locals import *
 
 import classes
-		
+
 def run():
 
 	pygame.init()
@@ -24,22 +25,22 @@ def run():
 	grid.ants_couters.append(0)
 	running = False
 	grid.setmode(1, "RL")
-	
+
 	while True:
-		
+
 		for event in pygame.event.get():
-			
+
 			if event.type == QUIT:
 				return
-			
+
 			#Mouse events
 			if event.type == MOUSEBUTTONDOWN:
-				
+
 				#Left click (Add new ant)
 				if event.button == 1:
 
 					x, y = event.pos
-					
+
 					if x < GRID_SIZE[0]:
 						#Langton mode
 						if grid.mode == 1:
@@ -65,7 +66,7 @@ def run():
 				#Quit
 				if event.key == K_ESCAPE:
 					return
-				
+
 				#Toggle Fullscreen
 				if event.key == K_F11:
 
@@ -77,7 +78,7 @@ def run():
 
 						screen = pygame.display.set_mode((w, h), 0, 32)
 					else:
-						root = Tkinter.Tk()
+						root = tkinter.Tk()
 						screen_width = root.winfo_screenwidth()
 						screen_height = root.winfo_screenheight()
 
@@ -87,7 +88,7 @@ def run():
 						h = GRID_SIZE[1]
 
 						screen = pygame.display.set_mode((w, h), pygame.FULLSCREEN)
-					
+
 					grid = classes.AntGrid(screen, *GRID_SIZE)
 
 					grid.setmode(1, "RL")
@@ -125,7 +126,7 @@ def run():
 				if event.key == K_SPACE:
 					if len(grid.scheme) > 1:
 						running = not running
-				
+
 				#Clear key
 				if event.key == K_c:
 					grid.setmode(grid.mode, grid.scheme)
@@ -138,7 +139,7 @@ def run():
 					#Disable fullscreen for open file dialog
 					screen = pygame.display.set_mode((w, h), 0, 32)
 
-					Tkinter.Tk().withdraw() # Close the root window
+					tkinter.Tk().withdraw() # Close the root window
 					csv_path = tkFileDialog.askopenfilename()
 
 					#Get back to fullscreen, or reset window size to regain focus
@@ -147,24 +148,24 @@ def run():
 					else:
 						screen = pygame.display.set_mode((w, h+1), 0, 32)
 						screen = pygame.display.set_mode((w, h), 0, 32)
-					
+
 					grid.load(csv_path)
-				
+
 				#Save key
 				if event.key == K_s:
 					grid.save()
 
 				# Speed setting
 				if (event.key == K_KP_MINUS or event.key == K_MINUS) and grid.frame_skip>1:
-					grid.frame_skip = grid.frame_skip / 4
+					grid.frame_skip = grid.frame_skip // 4
 					grid.updatespeed()
 
 				if (event.key == K_KP_PLUS or event.key == K_PLUS or event.key == K_EQUALS) and grid.frame_skip<262144:
 					grid.frame_skip = grid.frame_skip * 4
 					grid.updatespeed()
-	
+
 		if running:
-			for step_no in xrange(grid.frame_skip):
+			for step_no in range(grid.frame_skip):
 
 				#Check if there are ants to be loaded later in the simulation
 				if len(grid.loadlist) > 0:
@@ -192,6 +193,6 @@ def run():
 		grid.updatestats()
 
 		pygame.display.update()
-	
+
 if __name__ == "__main__":
 	run()
